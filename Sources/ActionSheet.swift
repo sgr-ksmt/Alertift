@@ -23,7 +23,7 @@ extension Alertift {
         
         /// Add action to alertController
         public func action(_ action: Alertift.Action, handler: @escaping Alertift.ActionHandler = {}) -> Self {
-            _alertController.addAction(buildAlertAction(action, handler: _alertController.combineActionHandler(handler)))
+            _alertController.addAction(buildAlertAction(action, handler: handler))
             return self
         }
         
@@ -38,6 +38,10 @@ extension Alertift {
             _alertController.popoverPresentationController?.sourceView = view
             _alertController.popoverPresentationController?.sourceRect = rect
             return self
+        }
+        
+        deinit {
+            Debug.log()
         }
     }
 }

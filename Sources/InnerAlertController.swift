@@ -43,31 +43,20 @@ class InnerAlertController: UIAlertController {
         textFieldTextDidChangeHandler?(textField, index)
     }
     
-    /// Combine originalHandler and finallyHandler with textFields.
-    ///
-    /// - Parameter originalHandler: original action handler.
-    /// - Returns: New action handler.
-    func combineActionWithTextFieldsHandler(_ originalHandler: @escaping _Alert.ActionWithTextFieldsHandler) -> (UIAlertAction) -> Void {
-        return combineActionHandler { [weak self] in
-            originalHandler(self?.textFields)
+    var actionWithTextFieldsHandler: () -> ([UITextField]?) {
+        return { [weak self] in
+            self?.textFields
         }
     }
     
-    /// Combine originalHandler and finallyHandler.
-    ///
-    /// - Parameter originalHandler: original action handler.
-    /// - Returns: New action handler.
-    func combineActionHandler(_ originalHandler: @escaping () -> Void) -> (UIAlertAction) -> Void {
+    var finallyExecutor: (UIAlertAction) -> Void {
         return { [weak self] action in
-            guard let strongSelf = self else {
-                return
-            }
-            originalHandler()
-            strongSelf.finallyHandler?(action, strongSelf.actions.index(of: action) ?? -1)
+            self?.finallyHandler?(action, self?.actions.index(of: action) ?? -1)
         }
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+        Debug.log()
     }
 }

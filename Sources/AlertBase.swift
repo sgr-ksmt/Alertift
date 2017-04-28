@@ -41,8 +41,8 @@ extension Alertift {
         ///   - action: action
         ///   - handler: The handler to execute after the action selected.
         /// - Returns: **UIAlertAction**
-        func buildAlertAction(_ action: Alertift.Action, handler: @escaping (UIAlertAction) -> Void) -> UIAlertAction {
-            return action.buildAlertAction(handler: handler)
+        func buildAlertAction(_ action: Alertift.Action, handler: @escaping Alertift.ActionHandler) -> UIAlertAction {
+            return action.buildAlertAction(handler: ActionHandlerBuilder.build(handler, _alertController.finallyExecutor))
         }
         
         /// Add finally handler.

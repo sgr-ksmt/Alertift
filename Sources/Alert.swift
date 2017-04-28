@@ -47,10 +47,7 @@ extension Alertift {
         ///   - handler: The block to execute after this action performed.
         /// - Returns: Myself
         public func action(_ action: Alertift.Action, isPreferred: Bool = false, handler: @escaping Alertift.ActionHandler = {}) -> Self {
-            addActionToAlertController(
-                buildAlertAction(action, handler: _alertController.combineActionHandler(handler)),
-                isPreferred: isPreferred
-            )
+            addActionToAlertController(buildAlertAction(action, handler: handler), isPreferred: isPreferred)
             return self
         }
 
@@ -61,9 +58,9 @@ extension Alertift {
         ///   - isPreferred: If you want to change this action to preferredAction, set true. Default is false.
         ///   - textFieldsHandler: The block that returns array of UITextFields to execute after this action performed.
         /// - Returns: Myself
-        final public func action(_ action: Alertift.Action, isPreferred: Bool = false, textFieldsHandler: @escaping ActionWithTextFieldsHandler) -> Self {
+        final public func action(_ action: Alertift.Action, isPreferred: Bool = false, textFieldsHandler handler: @escaping ActionWithTextFieldsHandler) -> Self {
             addActionToAlertController(
-                buildAlertAction(action, handler: _alertController.combineActionWithTextFieldsHandler(textFieldsHandler)),
+                buildAlertAction(action, handler: merge(_alertController.actionWithTextFieldsHandler, handler)),
                 isPreferred: isPreferred
             )
             return self
@@ -94,6 +91,10 @@ extension Alertift {
         public func handleTextFieldTextDidChange(textFieldTextDidChangeHandler: TextFieldHandler?) -> Self {
             _alertController.textFieldTextDidChangeHandler = textFieldTextDidChangeHandler
             return self
+        }
+        
+        deinit {
+            Debug.log()
         }
     }
 }

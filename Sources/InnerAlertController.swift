@@ -43,12 +43,14 @@ class InnerAlertController: UIAlertController {
         textFieldTextDidChangeHandler?(textField, index)
     }
     
+    /// Returns actionWithTextFieldsHandler
     var actionWithTextFieldsHandler: () -> ([UITextField]?) {
         return { [weak self] in
             self?.textFields
         }
     }
     
+    /// Returns finallyExecutor
     var finallyExecutor: (UIAlertAction) -> Void {
         return { [weak self] action in
             self?.finallyHandler?(action, self?.actions.index(of: action) ?? -1)

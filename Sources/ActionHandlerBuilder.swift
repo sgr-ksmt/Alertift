@@ -11,6 +11,7 @@ import Foundation
 final class ActionHandlerBuilder {
     private init() {}
     
+    /// Build closure using two closure.
     static func build<T: UIAlertAction>(_ h1: @escaping () -> Void, _ h2: @escaping (T) -> Void) -> (T) -> Void {
         return { action in
             h1()
@@ -19,6 +20,7 @@ final class ActionHandlerBuilder {
     }
 }
 
+/// merge two closure to one closure.
 func merge<A, B, C>(_ h1: @escaping (A) -> B, _ h2: @escaping (B) -> C) -> (A) -> C {
     return { x in h2(h1(x)) }
 }

@@ -18,6 +18,8 @@ class InnerAlertController: UIAlertController {
     /// finallyHandler: (UIAlertAction, Int) -> Void
     var finallyHandler: Alertift.FinallyHandler?
 
+    var alertBackgroundColor: UIColor?
+
     /// Register UITextFieldTextDidChange notification
     ///
     /// - Parameter textField: textField
@@ -57,8 +59,42 @@ class InnerAlertController: UIAlertController {
         }
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        adaptBackgroundColor()
+    }
+    
+    private func adaptBackgroundColor() {
+        mainView?.backgroundColor = alertBackgroundColor
+        if preferredStyle == .actionSheet {
+            if let cancelTitle = actions.filter({ $0.style == .cancel }).first?.title {
+                if let cancelButton = searchLabel(from: cancelTitle )?.superview?.superview {
+                    cancelButton.backgroundColor = alertBackgroundColor
+                }
+            }
+        }
+    }
+    
+    private var mainView: UIView? {
+        return view.subviews.first?.subviews.first?.subviews.first
+    }
+    
+    private func searchLabel(from text: String) -> UILabel? {
+        return view.recursiveSubviews
+            .flatMap { $0 as? UILabel}
+            .first { $0.text == text }
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
         Debug.log()
+    }
+}
+
+extension UIView {
+    
+    var recursiveSubviews: [UIView] {
+        return subviews.reduce(subviews, { return $0 + $1.recursiveSubviews })
     }
 }

@@ -43,6 +43,14 @@ class ViewController: UIViewController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        Alertift.alert(title: "Alertift", message: "Alertift is swifty, modern, and awesome UIAlertController wrapper.")
+            .action(.default("❤"))
+            .action(.default("⭐"))
+            .show(on: self)
+    }
+    
     private func showSimpleAlert() {
         Alertift.alert(title: "Sample 1", message: "Simple alert!")
             .action(.default("OK"))

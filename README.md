@@ -1,5 +1,13 @@
 # Alertift
-UIAlertControlelr wrapper for Swift
+
+![logo](Documents/logo.png)
+
+```swift
+Alertift.alert(title: "Alertift", message: "Alertift is swifty, modern, and awesome UIAlertController wrapper.")
+    .action(.default("❤️"))
+    .action(.default("⭐"))
+    .show(on: self)
+```
 
 [![GitHub release](https://img.shields.io/github/release/sgr-ksmt/Alertift.svg)](https://github.com/sgr-ksmt/Alertift/releases)
 ![Language](https://img.shields.io/badge/language-Swift%203-orange.svg)
@@ -8,17 +16,6 @@ UIAlertControlelr wrapper for Swift
 [![CocoaPodsDL](https://img.shields.io/cocoapods/dt/Alertift.svg)](https://cocoapods.org/pods/Alertift)
 [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/matteocrippa/awesome-swift#ui)  
 
-
-```swift
-Alertift.alert(title: "Confirm", message: "Delete this post?")
-    .action(.destructive("Delete")) {
-        // delete post
-    }
-    .action(.cancel("Cancel"))
-    .show()
-```
-
-![img1](Documents/img1.png)
 
 ## Feature
 - Method chain
@@ -32,7 +29,7 @@ Alertift.alert(title: "Confirm", message: "Delete this post?")
 ```swift
 Alertift.alert(title: "Sample 1", message: "Simple alert!")
     .action(.default("OK"))
-    .show()
+    .show(on: self) // show on specified view controller
 ```
 
 ![img2](Documents/img2.png)
@@ -45,6 +42,7 @@ Alertift.alert(title: "Confirm", message: "Delete this post?")
     }
     .action(.cancel("Cancel"))
     .show()
+    // Default presented view controller is `UIApplication.shared.keyWindow?.rootViewController`
 ```
 
 ![img1](Documents/img1.png)
@@ -105,14 +103,14 @@ Alertift.actionSheet(message: "Which food do you like?")
    .action(.default("🍖"))
    .action(.default("🍅"))
    .action(.cancel("None of them"))
-   .finally(handler: { action, index in
+   .finally { action, index in
        if action.style == .cancel {
            return
        }
        Alertift.alert(message: "\(index). \(action.title!)")
            .action(.default("OK"))
            .show()
-   })
+   }
    .show()
 ```
 

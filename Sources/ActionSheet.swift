@@ -11,6 +11,17 @@ import Foundation
 extension Alertift {
     /// ActionSheet
     final public class ActionSheet: AlertBase {
+        
+        public static var backgroundColor: UIColor? = nil
+        override class var _backgroundColor: UIColor? {
+            return backgroundColor
+        }
+        
+        public static var buttonTextColor: UIColor? = nil
+        override class var _buttonTextColor: UIColor? {
+            return buttonTextColor
+        }
+
         /// Make action sheet
         ///
         /// - Parameters:

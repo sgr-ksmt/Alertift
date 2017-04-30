@@ -18,12 +18,19 @@ extension Alertift {
             return _alertController as UIAlertController
         }
         
+        class var _backgroundColor: UIColor? {
+            return nil
+        }
+        
+        class var _buttonTextColor: UIColor? {
+            return nil
+        }
+        
         /// InnerAlertController (internal).
         let _alertController: InnerAlertController
         
         /// Handler for finally.
         private var finallyHandler: Alertift.FinallyHandler?
-        
         
         /// Initializer
         ///
@@ -33,6 +40,8 @@ extension Alertift {
         ///   - style: The style to use when presenting the alert controller. Use this parameter to configure the alert controller as an action sheet or as a modal alert.
         init(title: String? = nil, message: String? = nil, style: UIAlertControllerStyle) {
             _alertController = InnerAlertController(title: title, message: message, preferredStyle: style)
+            _alertController.alertBackgroundColor = type(of: self)._backgroundColor
+            _alertController.view.tintColor = type(of: self)._buttonTextColor
         }
         
         /// Build **UIAlertAction** using **Alertift.Action** and handler.
@@ -54,12 +63,32 @@ extension Alertift {
             return self
         }
         
+        public func backgroundColor(_ color: UIColor?) -> Self {
+            _alertController.alertBackgroundColor = color
+            return self
+        }
+        
+        public func buttonColor(_ color: UIColor?) -> Self {
+            _alertController.view.tintColor = color
+            return self
+        }
+        
+        public func titleTextColor(_ color: UIColor?) -> Self {
+            _alertController.titleTextColor = color
+            return self
+        }
+        
+        public func messageTextColor(_ color: UIColor?) -> Self {
+            _alertController.messageTextColor = color
+            return self
+        }
+        
         /// Show alert (or action sheet).
         ///
         /// - Parameters:
         ///   - viewController: The view controller to display over the current view controller’s content. Default is **UIApplication.shared.keyWindow?.rootViewController**
         ///   - completion: The block to execute after the presentation finishes. This block has no return value and takes no parameters. You may specify nil for this parameter.
-        final public func show(on viewController: UIViewController? = UIApplication.shared.keyWindow?.rootViewController, completion: (() -> Void)? = nil) {
+        final public func show(on viewController: UIViewController? = UIApplication.shared.keyWindow?.rootViewController, completion: (() -> Void)? = nil) {            
             viewController?.present(_alertController, animated: true, completion: completion)
         }        
     }

@@ -43,9 +43,16 @@ class ViewController: UIViewController {
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        Alertift.ActionSheet.backgroundColor = .brown
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         Alertift.alert(title: "Alertift", message: "Alertift is swifty, modern, and awesome UIAlertController wrapper.")
+            .titleTextColor(.red)
+            .messageTextColor(.blue)
             .action(.default("❤"))
             .action(.default("⭐"))
             .show(on: self)

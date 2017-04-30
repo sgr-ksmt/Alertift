@@ -46,6 +46,5 @@ extension Alertift {
 
 
 /// Internal typealiases
-typealias _AlertBase = Alertift.AlertBase
 typealias _Alert = Alertift.Alert
 typealias _ActionSheet = Alertift.ActionSheet

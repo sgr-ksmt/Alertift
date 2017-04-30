@@ -11,7 +11,7 @@ import UIKit
 
 /// InnerAlertController
 /// subclass of **UIAlertController**
-class InnerAlertController: UIAlertController {
+public class InnerAlertController: UIAlertController {
     /// textFieldTextDidChangeHandler: ((UITextField, Int) -> Void)
     var textFieldTextDidChangeHandler: _Alert.TextFieldHandler?
     
@@ -61,7 +61,7 @@ class InnerAlertController: UIAlertController {
         }
     }
     
-    override func viewWillLayoutSubviews() {
+    override public func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         adaptBackgroundColor()

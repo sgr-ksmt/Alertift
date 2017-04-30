@@ -10,22 +10,19 @@ import Foundation
 
 extension Alertift {
     /// Alert
-    final public class Alert: AlertBase {
+    final public class Alert: AlertType {
         /// TextFieldHandler
         public typealias TextFieldHandler = ((UITextField, Int) -> Void)
         
         /// ActionWithTextFieldsHandler
         public typealias ActionWithTextFieldsHandler = ([UITextField]?) -> Void
         
-        public static var backgroundColor: UIColor? = nil
-        override class var _backgroundColor: UIColor? {
-            return backgroundColor
-        }
+        public var alertController: InnerAlertController!
 
-        public static var buttonTextColor: UIColor? = nil
-        override class var _buttonTextColor: UIColor? {
-            return buttonTextColor
-        }
+        public static var backgroundColor: UIColor?
+        public static var buttonTextColor: UIColor?
+        public static var titleTextColor: UIColor?
+        public static var messageTextColor: UIColor?
 
         /// Make alert
         ///
@@ -34,7 +31,7 @@ extension Alertift {
         ///   - message: Descriptive text that provides additional details about the reason for the alert.
         /// - Returns: Instance of **Alert**
         public init(title: String? = nil, message: String? = nil) {
-            super.init(title: title, message: message, style: .alert)
+            buildAlertControlelr(title: title, message: message, style: .alert)
         }
         
         /// Add alertAction to alertController
@@ -43,9 +40,9 @@ extension Alertift {
         ///   - alertAction: UIAlertAction
         ///   - isPreferred: If isPreferred is true, alertAction becomes preferredAction.
         private func addActionToAlertController(_ alertAction: UIAlertAction, isPreferred: Bool) {
-            _alertController.addAction(alertAction)
+            alertController.addAction(alertAction)
             if isPreferred {
-                _alertController.preferredAction = alertAction
+                alertController.preferredAction = alertAction
             }
         }
         
@@ -70,7 +67,7 @@ extension Alertift {
         /// - Returns: Myself
         final public func action(_ action: Alertift.Action, isPreferred: Bool = false, textFieldsHandler handler: @escaping ActionWithTextFieldsHandler) -> Self {
             addActionToAlertController(
-                buildAlertAction(action, handler: merge(_alertController.actionWithTextFieldsHandler, handler)),
+                buildAlertAction(action, handler: merge(alertController.actionWithTextFieldsHandler, handler)),
                 isPreferred: isPreferred
             )
             return self
@@ -81,12 +78,12 @@ extension Alertift {
         /// - Parameter handler: Define handler if you want to customize UITextField. Default is nil.
         /// - Returns: Myself
         public func textField(configurationHandler handler: ((UITextField) -> Void)? = nil) -> Self {
-            _alertController.addTextField { [weak self] textField in
+            alertController.addTextField { [weak self] textField in
                 guard let strongSelf = self else {
                     return
                 }
                 handler?(textField)
-                strongSelf._alertController.registerTextFieldObserver(textField)
+                strongSelf.alertController.registerTextFieldObserver(textField)
             }
             
             return self
@@ -99,7 +96,7 @@ extension Alertift {
         /// - Parameter textFieldTextDidChangeHandler: TextFieldHandler (UITextField, Int) -> Void
         /// - Returns: Myself
         public func handleTextFieldTextDidChange(textFieldTextDidChangeHandler: TextFieldHandler?) -> Self {
-            _alertController.textFieldTextDidChangeHandler = textFieldTextDidChangeHandler
+            alertController.textFieldTextDidChangeHandler = textFieldTextDidChangeHandler
             return self
         }
         

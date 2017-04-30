@@ -10,17 +10,14 @@ import Foundation
 
 extension Alertift {
     /// ActionSheet
-    final public class ActionSheet: AlertBase {
+    final public class ActionSheet: AlertType {
         
-        public static var backgroundColor: UIColor? = nil
-        override class var _backgroundColor: UIColor? {
-            return backgroundColor
-        }
+        public var alertController: InnerAlertController!
         
-        public static var buttonTextColor: UIColor? = nil
-        override class var _buttonTextColor: UIColor? {
-            return buttonTextColor
-        }
+        public static var backgroundColor: UIColor?
+        public static var buttonTextColor: UIColor?
+        public static var titleTextColor: UIColor?
+        public static var messageTextColor: UIColor?
 
         /// Make action sheet
         ///
@@ -29,12 +26,12 @@ extension Alertift {
         ///   - message: Descriptive text that provides additional details about the reason for the alert.
         /// - Returns: Instance of **ActionSheet**
         public init(title: String? = nil, message: String? = nil) {
-            super.init(title: title, message: message, style: .actionSheet)
+            buildAlertControlelr(title: title, message: message, style: .actionSheet)
         }
         
         /// Add action to alertController
         public func action(_ action: Alertift.Action, handler: @escaping Alertift.ActionHandler = {}) -> Self {
-            _alertController.addAction(buildAlertAction(action, handler: handler))
+            alertController.addAction(buildAlertAction(action, handler: handler))
             return self
         }
         
@@ -46,8 +43,8 @@ extension Alertift {
         ///   - rect: sourceRect
         /// - Returns: MySelf
         public func popover(sourceView view: UIView?, sourceRect rect: CGRect) -> Self {
-            _alertController.popoverPresentationController?.sourceView = view
-            _alertController.popoverPresentationController?.sourceRect = rect
+            alertController.popoverPresentationController?.sourceView = view
+            alertController.popoverPresentationController?.sourceRect = rect
             return self
         }
         

@@ -11,11 +11,11 @@
 		4D13C7B11EB22B8F007BBB43 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D13C7AB1EB22B8F007BBB43 /* Action.swift */; };
 		4D13C7B21EB22B8F007BBB43 /* ActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D13C7AC1EB22B8F007BBB43 /* ActionSheet.swift */; };
 		4D13C7B31EB22B8F007BBB43 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D13C7AD1EB22B8F007BBB43 /* Alert.swift */; };
-		4D13C7B41EB22B8F007BBB43 /* AlertBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D13C7AE1EB22B8F007BBB43 /* AlertBase.swift */; };
 		4D13C7B51EB22B8F007BBB43 /* Alertift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D13C7AF1EB22B8F007BBB43 /* Alertift.swift */; };
 		4D13C7B61EB22B8F007BBB43 /* InnerAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D13C7B01EB22B8F007BBB43 /* InnerAlertController.swift */; };
 		4D13C7BF1EB320D4007BBB43 /* ActionHandlerBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D13C7BE1EB320D4007BBB43 /* ActionHandlerBuilder.swift */; };
 		4D13C7C11EB32AE6007BBB43 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D13C7C01EB32AE6007BBB43 /* Debug.swift */; };
+		4D13C7C51EB5DFB7007BBB43 /* AlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D13C7C41EB5DFB7007BBB43 /* AlertType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,11 +25,11 @@
 		4D13C7AB1EB22B8F007BBB43 /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		4D13C7AC1EB22B8F007BBB43 /* ActionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionSheet.swift; sourceTree = "<group>"; };
 		4D13C7AD1EB22B8F007BBB43 /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
-		4D13C7AE1EB22B8F007BBB43 /* AlertBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertBase.swift; sourceTree = "<group>"; };
 		4D13C7AF1EB22B8F007BBB43 /* Alertift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alertift.swift; sourceTree = "<group>"; };
 		4D13C7B01EB22B8F007BBB43 /* InnerAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InnerAlertController.swift; sourceTree = "<group>"; };
 		4D13C7BE1EB320D4007BBB43 /* ActionHandlerBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionHandlerBuilder.swift; sourceTree = "<group>"; };
 		4D13C7C01EB32AE6007BBB43 /* Debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
+		4D13C7C41EB5DFB7007BBB43 /* AlertType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,13 +73,13 @@
 			isa = PBXGroup;
 			children = (
 				4D13C7AF1EB22B8F007BBB43 /* Alertift.swift */,
-				4D13C7AE1EB22B8F007BBB43 /* AlertBase.swift */,
 				4D13C7AD1EB22B8F007BBB43 /* Alert.swift */,
 				4D13C7AC1EB22B8F007BBB43 /* ActionSheet.swift */,
 				4D13C7AB1EB22B8F007BBB43 /* Action.swift */,
 				4D13C7B01EB22B8F007BBB43 /* InnerAlertController.swift */,
 				4D13C7BE1EB320D4007BBB43 /* ActionHandlerBuilder.swift */,
 				4D13C7C01EB32AE6007BBB43 /* Debug.swift */,
+				4D13C7C41EB5DFB7007BBB43 /* AlertType.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -167,8 +167,8 @@
 				4D13C7B31EB22B8F007BBB43 /* Alert.swift in Sources */,
 				4D13C7BF1EB320D4007BBB43 /* ActionHandlerBuilder.swift in Sources */,
 				4D13C7B61EB22B8F007BBB43 /* InnerAlertController.swift in Sources */,
-				4D13C7B41EB22B8F007BBB43 /* AlertBase.swift in Sources */,
 				4D13C7B11EB22B8F007BBB43 /* Action.swift in Sources */,
+				4D13C7C51EB5DFB7007BBB43 /* AlertType.swift in Sources */,
 				4D13C7C11EB32AE6007BBB43 /* Debug.swift in Sources */,
 				4D13C7B51EB22B8F007BBB43 /* Alertift.swift in Sources */,
 				4D13C7B21EB22B8F007BBB43 /* ActionSheet.swift in Sources */,

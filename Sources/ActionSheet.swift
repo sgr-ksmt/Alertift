@@ -10,7 +10,18 @@ import Foundation
 
 extension Alertift {
     /// ActionSheet
-    final public class ActionSheet: AlertBase {
+    final public class ActionSheet: AlertType, _AlertType {
+        
+        var _alertController: InnerAlertController!
+        public var alertController: UIAlertController {
+            return _alertController as UIAlertController
+        }
+        
+        public static var backgroundColor: UIColor?
+        public static var buttonTextColor: UIColor?
+        public static var titleTextColor: UIColor?
+        public static var messageTextColor: UIColor?
+
         /// Make action sheet
         ///
         /// - Parameters:
@@ -18,7 +29,7 @@ extension Alertift {
         ///   - message: Descriptive text that provides additional details about the reason for the alert.
         /// - Returns: Instance of **ActionSheet**
         public init(title: String? = nil, message: String? = nil) {
-            super.init(title: title, message: message, style: .actionSheet)
+            buildAlertControlelr(title: title, message: message, style: .actionSheet)
         }
         
         /// Add action to alertController

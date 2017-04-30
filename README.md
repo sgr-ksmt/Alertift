@@ -20,6 +20,7 @@ Alertift.alert(title: "Alertift", message: "Alertift is swifty, modern, and awes
 - Method chain
 - UITextField support
 - iPad support(Action Sheet, popover)
+- Can change title/message/button text/ background color. (**without** private APIs.)
 
 ## Examples
 
@@ -114,6 +115,44 @@ Alertift.actionSheet(message: "Which food do you like?")
 ```
 
 ![img5](Documents/img5.png)
+
+### Change colors
+
+```swift
+Alertift.alert(title: "Red color title", message: "Message text color is blue")
+    .titleTextColor(.red)
+    .messageTextColor(.blue)
+    .backgroundColor(.lightGray)
+    .buttonTextColor(.orange)
+    .action(.default("Orange"))
+    .show()
+```
+
+![img6](Documents/img6.png)
+
+```swift
+public func backgroundColor(_ color: UIColor?) -> Self
+public func buttonTextColor(_ color: UIColor?) -> Self
+public func titleTextColor(_ color: UIColor?) -> Self
+public func messageTextColor(_ color: UIColor?) -> Self
+```
+
+#### Always change color
+
+If you want to change Alertift's alert(action sheet) color always,  
+set color to `static var`.
+
+```swift
+Alertift.Alert.titleTextColor = .red
+Alertift.ActionSheet.backgroundColor = .gray
+```
+
+```swift
+static var backgroundColor: UIColor? { get set }
+static var buttonTextColor: UIColor? { get set }
+static var titleTextColor: UIColor? { get set }
+static var messageTextColor: UIColor? { get set }
+```
 
 
 ## Requirements

@@ -43,9 +43,15 @@ class ViewController: UIViewController {
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         Alertift.alert(title: "Alertift", message: "Alertift is swifty, modern, and awesome UIAlertController wrapper.")
+            .titleTextColor(.red)
+            .messageTextColor(.blue)
             .action(.default("❤"))
             .action(.default("⭐"))
             .show(on: self)
@@ -96,22 +102,22 @@ class ViewController: UIViewController {
             .show()
     }
     private func showActionSheet(source: UIView, frame: CGRect) {
-     Alertift.actionSheet(message: "Which food do you like?")
-        .popover(sourceView: source, sourceRect: frame)
-        .action(.default("🍣"))
-        .action(.default("🍎"))
-        .action(.default("🍖"))
-        .action(.default("🍅"))
-        .action(.cancel("None of them"))
-        .finally { action, index in
-            if action.style == .cancel {
-                return
+        Alertift.actionSheet(message: "Which food do you like?")
+            .popover(sourceView: source, sourceRect: frame)
+            .action(.default("🍣"))
+            .action(.default("🍎"))
+            .action(.default("🍖"))
+            .action(.default("🍅"))
+            .action(.cancel("None of them"))
+            .finally { action, index in
+                if action.style == .cancel {
+                    return
+                }
+                Alertift.alert(message: "\(index). \(action.title!)")
+                    .action(.default("OK"))
+                    .show()
             }
-            Alertift.alert(message: "\(index). \(action.title!)")
-                .action(.default("OK"))
-                .show()
-        }
-        .show()
+            .show()
     }
 }
 

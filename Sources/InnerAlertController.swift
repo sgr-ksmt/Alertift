@@ -18,6 +18,10 @@ class InnerAlertController: UIAlertController {
     /// finallyHandler: (UIAlertAction, Int) -> Void
     var finallyHandler: Alertift.FinallyHandler?
 
+    var alertBackgroundColor: UIColor?
+    var titleTextColor: UIColor? = .black
+    var messageTextColor: UIColor? = .black
+
     /// Register UITextFieldTextDidChange notification
     ///
     /// - Parameter textField: textField
@@ -57,8 +61,57 @@ class InnerAlertController: UIAlertController {
         }
     }
     
+    override public func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        adaptBackgroundColor()
+        adaptTitleColor()
+        adaptMessageColor()
+    }
+    
+    private func adaptBackgroundColor() {
+        mainView?.backgroundColor = alertBackgroundColor
+        if preferredStyle == .actionSheet {
+            if let cancelTitle = actions.filter({ $0.style == .cancel }).first?.title {
+                if let cancelButton = searchLabel(from: cancelTitle )?.superview?.superview {
+                    cancelButton.backgroundColor = alertBackgroundColor
+                }
+            }
+        }
+    }
+    
+    private func adaptTitleColor() {
+        if let title = title, let titleLabel = searchLabel(from: title) {
+            print(titleLabel.textColor)
+            titleLabel.textColor = titleTextColor
+        }
+    }
+
+    private func adaptMessageColor() {
+        if let message = message, let messageLabel = searchLabel(from: message) {
+            messageLabel.textColor = messageTextColor
+        }
+    }
+
+    private var mainView: UIView? {
+        return view.subviews.first?.subviews.first?.subviews.first
+    }
+    
+    private func searchLabel(from text: String) -> UILabel? {
+        return view.recursiveSubviews
+            .flatMap { $0 as? UILabel}
+            .first { $0.text == text }
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
         Debug.log()
+    }
+}
+
+extension UIView {
+    
+    var recursiveSubviews: [UIView] {
+        return subviews.reduce(subviews, { return $0 + $1.recursiveSubviews })
     }
 }

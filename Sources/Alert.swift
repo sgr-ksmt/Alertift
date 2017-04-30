@@ -10,22 +10,22 @@ import Foundation
 
 extension Alertift {
     /// Alert
-    final public class Alert: AlertBase {
+    final public class Alert: AlertType, _AlertType {
         /// TextFieldHandler
         public typealias TextFieldHandler = ((UITextField, Int) -> Void)
         
         /// ActionWithTextFieldsHandler
         public typealias ActionWithTextFieldsHandler = ([UITextField]?) -> Void
         
-        public static var backgroundColor: UIColor? = nil
-        override class var _backgroundColor: UIColor? {
-            return backgroundColor
+        var _alertController: InnerAlertController!
+        public var alertController: UIAlertController {
+            return _alertController as UIAlertController
         }
 
-        public static var buttonTextColor: UIColor? = nil
-        override class var _buttonTextColor: UIColor? {
-            return buttonTextColor
-        }
+        public static var backgroundColor: UIColor?
+        public static var buttonTextColor: UIColor?
+        public static var titleTextColor: UIColor?
+        public static var messageTextColor: UIColor?
 
         /// Make alert
         ///
@@ -34,7 +34,7 @@ extension Alertift {
         ///   - message: Descriptive text that provides additional details about the reason for the alert.
         /// - Returns: Instance of **Alert**
         public init(title: String? = nil, message: String? = nil) {
-            super.init(title: title, message: message, style: .alert)
+            buildAlertControlelr(title: title, message: message, style: .alert)
         }
         
         /// Add alertAction to alertController

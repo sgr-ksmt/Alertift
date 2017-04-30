@@ -61,7 +61,7 @@ class InnerAlertController: UIAlertController {
         }
     }
     
-    override func viewWillLayoutSubviews() {
+    override public func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         adaptBackgroundColor()

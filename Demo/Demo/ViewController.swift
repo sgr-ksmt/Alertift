@@ -103,22 +103,22 @@ class ViewController: UIViewController {
             .show()
     }
     private func showActionSheet(source: UIView, frame: CGRect) {
-     Alertift.actionSheet(message: "Which food do you like?")
-        .popover(sourceView: source, sourceRect: frame)
-        .action(.default("🍣"))
-        .action(.default("🍎"))
-        .action(.default("🍖"))
-        .action(.default("🍅"))
-        .action(.cancel("None of them"))
-        .finally { action, index in
-            if action.style == .cancel {
-                return
+        Alertift.actionSheet(message: "Which food do you like?")
+            .popover(sourceView: source, sourceRect: frame)
+            .action(.default("🍣"))
+            .action(.default("🍎"))
+            .action(.default("🍖"))
+            .action(.default("🍅"))
+            .action(.cancel("None of them"))
+            .finally { action, index in
+                if action.style == .cancel {
+                    return
+                }
+                Alertift.alert(message: "\(index). \(action.title!)")
+                    .action(.default("OK"))
+                    .show()
             }
-            Alertift.alert(message: "\(index). \(action.title!)")
-                .action(.default("OK"))
-                .show()
-        }
-        .show()
+            .show()
     }
 }
 

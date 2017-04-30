@@ -8,15 +8,12 @@
 
 import Foundation
 
-public protocol AlertType: class {
+
+internal protocol _AlertType: class {
     var alertController: InnerAlertController! { get set }
-    static var backgroundColor: UIColor? { get set }
-    static var buttonTextColor: UIColor? { get set }
-    static var titleTextColor: UIColor? { get set }
-    static var messageTextColor: UIColor? { get set }
 }
 
-extension AlertType {
+extension _AlertType where Self: AlertType {
     func buildAlertControlelr(title: String? = nil, message: String? = nil, style: UIAlertControllerStyle) {
         alertController = InnerAlertController(title: title, message: message, preferredStyle: style)
         alertController.alertBackgroundColor = type(of: self).backgroundColor
@@ -24,7 +21,17 @@ extension AlertType {
         alertController.titleTextColor = type(of: self).titleTextColor
         alertController.messageTextColor = type(of: self).messageTextColor
     }
-    
+}
+
+public protocol AlertType: class {
+    var alertController: InnerAlertController! { get }
+    static var backgroundColor: UIColor? { get set }
+    static var buttonTextColor: UIColor? { get set }
+    static var titleTextColor: UIColor? { get set }
+    static var messageTextColor: UIColor? { get set }
+}
+
+extension AlertType {    
     /// Build **UIAlertAction** using **Alertift.Action** and handler.
     ///
     /// - Parameters:

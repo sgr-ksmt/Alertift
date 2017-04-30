@@ -10,14 +10,14 @@ import Foundation
 
 extension Alertift {
     /// Alert
-    final public class Alert: AlertType {
+    final public class Alert: AlertType, _AlertType {
         /// TextFieldHandler
         public typealias TextFieldHandler = ((UITextField, Int) -> Void)
         
         /// ActionWithTextFieldsHandler
         public typealias ActionWithTextFieldsHandler = ([UITextField]?) -> Void
         
-        public var alertController: InnerAlertController!
+        public internal(set) var alertController: InnerAlertController!
 
         public static var backgroundColor: UIColor?
         public static var buttonTextColor: UIColor?

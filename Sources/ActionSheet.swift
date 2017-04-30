@@ -10,9 +10,9 @@ import Foundation
 
 extension Alertift {
     /// ActionSheet
-    final public class ActionSheet: AlertType {
+    final public class ActionSheet: AlertType, _AlertType {
         
-        public var alertController: InnerAlertController!
+        public internal(set) var alertController: InnerAlertController!
         
         public static var backgroundColor: UIColor?
         public static var buttonTextColor: UIColor?

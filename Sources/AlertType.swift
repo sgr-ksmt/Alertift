@@ -8,12 +8,14 @@
 
 import Foundation
 
-
+/// Internal AlertType protocol
 internal protocol _AlertType: class {
+    /// inner alertController
     var _alertController: InnerAlertController! { get set }
 }
 
 extension _AlertType where Self: AlertType {
+    /// build AlertController
     func buildAlertControlelr(title: String? = nil, message: String? = nil, style: UIAlertControllerStyle) {
         _alertController = InnerAlertController(title: title, message: message, preferredStyle: style)
         _alertController.alertBackgroundColor = type(of: self).backgroundColor
@@ -23,18 +25,29 @@ extension _AlertType where Self: AlertType {
     }
 }
 
+/// AlertType protocol
 public protocol AlertType: class {
+    /// UIAlertController
     var alertController: UIAlertController { get }
+    /// default background color of Alert(ActionSheet).
     static var backgroundColor: UIColor? { get set }
+    
+    /// default button text color of Alert(ActionSheet).
     static var buttonTextColor: UIColor? { get set }
+    
+    /// default title text color of Alert(ActionSheet).
     static var titleTextColor: UIColor? { get set }
+    
+    /// default message text color of Alert(ActionSheet).
     static var messageTextColor: UIColor? { get set }
 }
 
 extension AlertType {
+    /// get InnerAlertController.
     private var _alertController: InnerAlertController {
         return alertController as! InnerAlertController
     }
+    
     /// Build **UIAlertAction** using **Alertift.Action** and handler.
     ///
     /// - Parameters:
@@ -54,21 +67,37 @@ extension AlertType {
         return self
     }
     
+    /// Change background color
+    ///
+    /// - Parameter color: UIColor
+    /// - Returns: Myself
     public func backgroundColor(_ color: UIColor?) -> Self {
         _alertController.alertBackgroundColor = color
         return self
     }
     
-    public func buttonColor(_ color: UIColor?) -> Self {
+    /// Change button text color
+    ///
+    /// - Parameter color: UIColor
+    /// - Returns: Myself
+    public func buttonTextColor(_ color: UIColor?) -> Self {
         _alertController.view.tintColor = color
         return self
     }
     
+    /// Change title text color
+    ///
+    /// - Parameter color: UIColor
+    /// - Returns: Myself
     public func titleTextColor(_ color: UIColor?) -> Self {
         _alertController.titleTextColor = color
         return self
     }
     
+    /// Change message text color
+    ///
+    /// - Parameter color: UIColor
+    /// - Returns: Myself
     public func messageTextColor(_ color: UIColor?) -> Self {
         _alertController.messageTextColor = color
         return self

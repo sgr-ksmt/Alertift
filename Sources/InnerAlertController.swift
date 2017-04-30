@@ -11,7 +11,7 @@ import UIKit
 
 /// InnerAlertController
 /// subclass of **UIAlertController**
-public class InnerAlertController: UIAlertController {
+class InnerAlertController: UIAlertController {
     /// textFieldTextDidChangeHandler: ((UITextField, Int) -> Void)
     var textFieldTextDidChangeHandler: _Alert.TextFieldHandler?
     

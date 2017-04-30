@@ -17,7 +17,10 @@ extension Alertift {
         /// ActionWithTextFieldsHandler
         public typealias ActionWithTextFieldsHandler = ([UITextField]?) -> Void
         
-        public internal(set) var alertController: InnerAlertController!
+        var _alertController: InnerAlertController!
+        public var alertController: UIAlertController {
+            return _alertController as UIAlertController
+        }
 
         public static var backgroundColor: UIColor?
         public static var buttonTextColor: UIColor?
@@ -40,9 +43,9 @@ extension Alertift {
         ///   - alertAction: UIAlertAction
         ///   - isPreferred: If isPreferred is true, alertAction becomes preferredAction.
         private func addActionToAlertController(_ alertAction: UIAlertAction, isPreferred: Bool) {
-            alertController.addAction(alertAction)
+            _alertController.addAction(alertAction)
             if isPreferred {
-                alertController.preferredAction = alertAction
+                _alertController.preferredAction = alertAction
             }
         }
         
@@ -67,7 +70,7 @@ extension Alertift {
         /// - Returns: Myself
         final public func action(_ action: Alertift.Action, isPreferred: Bool = false, textFieldsHandler handler: @escaping ActionWithTextFieldsHandler) -> Self {
             addActionToAlertController(
-                buildAlertAction(action, handler: merge(alertController.actionWithTextFieldsHandler, handler)),
+                buildAlertAction(action, handler: merge(_alertController.actionWithTextFieldsHandler, handler)),
                 isPreferred: isPreferred
             )
             return self
@@ -78,12 +81,12 @@ extension Alertift {
         /// - Parameter handler: Define handler if you want to customize UITextField. Default is nil.
         /// - Returns: Myself
         public func textField(configurationHandler handler: ((UITextField) -> Void)? = nil) -> Self {
-            alertController.addTextField { [weak self] textField in
+            _alertController.addTextField { [weak self] textField in
                 guard let strongSelf = self else {
                     return
                 }
                 handler?(textField)
-                strongSelf.alertController.registerTextFieldObserver(textField)
+                strongSelf._alertController.registerTextFieldObserver(textField)
             }
             
             return self
@@ -96,7 +99,7 @@ extension Alertift {
         /// - Parameter textFieldTextDidChangeHandler: TextFieldHandler (UITextField, Int) -> Void
         /// - Returns: Myself
         public func handleTextFieldTextDidChange(textFieldTextDidChangeHandler: TextFieldHandler?) -> Self {
-            alertController.textFieldTextDidChangeHandler = textFieldTextDidChangeHandler
+            _alertController.textFieldTextDidChangeHandler = textFieldTextDidChangeHandler
             return self
         }
         

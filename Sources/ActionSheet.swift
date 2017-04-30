@@ -12,7 +12,10 @@ extension Alertift {
     /// ActionSheet
     final public class ActionSheet: AlertType, _AlertType {
         
-        public internal(set) var alertController: InnerAlertController!
+        var _alertController: InnerAlertController!
+        public var alertController: UIAlertController {
+            return _alertController as UIAlertController
+        }
         
         public static var backgroundColor: UIColor?
         public static var buttonTextColor: UIColor?
@@ -31,7 +34,7 @@ extension Alertift {
         
         /// Add action to alertController
         public func action(_ action: Alertift.Action, handler: @escaping Alertift.ActionHandler = {}) -> Self {
-            alertController.addAction(buildAlertAction(action, handler: handler))
+            _alertController.addAction(buildAlertAction(action, handler: handler))
             return self
         }
         
@@ -43,8 +46,8 @@ extension Alertift {
         ///   - rect: sourceRect
         /// - Returns: MySelf
         public func popover(sourceView view: UIView?, sourceRect rect: CGRect) -> Self {
-            alertController.popoverPresentationController?.sourceView = view
-            alertController.popoverPresentationController?.sourceRect = rect
+            _alertController.popoverPresentationController?.sourceView = view
+            _alertController.popoverPresentationController?.sourceRect = rect
             return self
         }
         

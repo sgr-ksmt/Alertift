@@ -19,6 +19,8 @@ class InnerAlertController: UIAlertController {
     var finallyHandler: Alertift.FinallyHandler?
 
     var alertBackgroundColor: UIColor?
+    var titleTextColor: UIColor? = .black
+    var messageTextColor: UIColor? = .black
 
     /// Register UITextFieldTextDidChange notification
     ///
@@ -63,6 +65,8 @@ class InnerAlertController: UIAlertController {
         super.viewWillLayoutSubviews()
         
         adaptBackgroundColor()
+        adaptTitleColor()
+        adaptMessageColor()
     }
     
     private func adaptBackgroundColor() {
@@ -76,6 +80,19 @@ class InnerAlertController: UIAlertController {
         }
     }
     
+    private func adaptTitleColor() {
+        if let title = title, let titleLabel = searchLabel(from: title) {
+            print(titleLabel.textColor)
+            titleLabel.textColor = titleTextColor
+        }
+    }
+
+    private func adaptMessageColor() {
+        if let message = message, let messageLabel = searchLabel(from: message) {
+            messageLabel.textColor = messageTextColor
+        }
+    }
+
     private var mainView: UIView? {
         return view.subviews.first?.subviews.first?.subviews.first
     }

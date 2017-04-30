@@ -73,6 +73,16 @@ extension Alertift {
             return self
         }
         
+        public func titleTextColor(_ color: UIColor?) -> Self {
+            _alertController.titleTextColor = color
+            return self
+        }
+        
+        public func messageTextColor(_ color: UIColor?) -> Self {
+            _alertController.messageTextColor = color
+            return self
+        }
+        
         /// Show alert (or action sheet).
         ///
         /// - Parameters:

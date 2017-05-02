@@ -44,10 +44,21 @@ extension Alertift {
         /// - Parameters:
         ///   - view: sourceView
         ///   - rect: sourceRect
-        /// - Returns: MySelf
+        /// - Returns: Myself
         public func popover(sourceView view: UIView?, sourceRect rect: CGRect) -> Self {
             _alertController.popoverPresentationController?.sourceView = view
             _alertController.popoverPresentationController?.sourceRect = rect
+            return self
+        }
+
+        /// Add barButtonItem to **popoverPresentationController**.
+        ///
+        /// If you want to use action sheet on iPad, you have to use this method.
+        /// - Parameters:
+        ///   - barButtonItem: UIBarButtonItem
+        /// - Returns: Myself
+        public func popover(barButtonItem: UIBarButtonItem?) -> Self {
+            _alertController.popoverPresentationController?.barButtonItem = barButtonItem
             return self
         }
         

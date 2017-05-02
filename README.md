@@ -20,7 +20,8 @@ Alertift.alert(title: "Alertift", message: "Alertift is swifty, modern, and awes
 - Method chain
 - UITextField support
 - iPad support(Action Sheet, popover)
-- Can change title/message/button text/ background color. (**without** private APIs.)
+- Can change title/message/button text/ background color **without** using private APIs.
+- Can change title/message's alignment **without** using private APIs.
 
 ## Examples
 

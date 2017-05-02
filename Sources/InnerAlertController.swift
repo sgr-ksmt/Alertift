@@ -21,7 +21,10 @@ class InnerAlertController: UIAlertController {
     var alertBackgroundColor: UIColor?
     var titleTextColor: UIColor? = .black
     var messageTextColor: UIColor? = .black
-
+    var titleTextAlignment: NSTextAlignment = .center
+    var messageTextAlignment: NSTextAlignment = .center
+    
+    
     /// Register UITextFieldTextDidChange notification
     ///
     /// - Parameter textField: textField
@@ -65,8 +68,8 @@ class InnerAlertController: UIAlertController {
         super.viewWillLayoutSubviews()
         
         adaptBackgroundColor()
-        adaptTitleColor()
-        adaptMessageColor()
+        updateTitleLabel()
+        updateMessageLabel()
     }
     
     private func adaptBackgroundColor() {
@@ -80,19 +83,28 @@ class InnerAlertController: UIAlertController {
         }
     }
     
-    private func adaptTitleColor() {
-        if let title = title, let titleLabel = searchLabel(from: title) {
-            print(titleLabel.textColor)
+    var titleLabel: UILabel? {
+        return title.flatMap(searchLabel(from:))
+    }
+    
+    var messageLabel: UILabel? {
+        return message.flatMap(searchLabel(from:))
+    }
+
+    private func updateTitleLabel() {
+        if let titleLabel = titleLabel {
             titleLabel.textColor = titleTextColor
+            titleLabel.textAlignment = titleTextAlignment
         }
     }
 
-    private func adaptMessageColor() {
-        if let message = message, let messageLabel = searchLabel(from: message) {
+    private func updateMessageLabel() {
+        if let messageLabel = messageLabel {
             messageLabel.textColor = messageTextColor
+            messageLabel.textAlignment = messageTextAlignment
         }
     }
-
+    
     private var mainView: UIView? {
         return view.subviews.first?.subviews.first?.subviews.first
     }

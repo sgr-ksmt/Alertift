@@ -103,6 +103,25 @@ extension AlertType {
         return self
     }
     
+    /// Change text alignment of title
+    ///
+    /// - Parameter alignment: NSTextAlignment
+    /// - Returns: Myself
+    public func titleTextAlignment(_ alignment: NSTextAlignment) -> Self {
+        _alertController.titleTextAlignment = alignment
+        return self
+    }
+    
+    /// Change text alignment of message
+    ///
+    /// - Parameter alignment: NSTextAlignment
+    /// - Returns: Myself
+    public func messageTextAlignment(_ alignment: NSTextAlignment) -> Self {
+        _alertController.messageTextAlignment = alignment
+        return self
+    }
+
+    
     /// Show alert (or action sheet).
     ///
     /// - Parameters:

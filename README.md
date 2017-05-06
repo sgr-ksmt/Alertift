@@ -94,7 +94,28 @@ Alertift.actionSheet(message: "Which food do you like?")
 ![img4](Documents/img4.png)
 
 #### for iPad
-Use `popover(sourceView:SourceRect)`
+Use `popover(anchorView:)` simply.
+
+```swift
+Alertift.actionSheet(message: "Which food do you like?")
+   .popover(anchorView: button)
+   .action(.default("🍣"))
+   .action(.default("🍎"))
+   .action(.default("🍖"))
+   .action(.default("🍅"))
+   .action(.cancel("None of them"))
+   .finally { action, index in
+       if action.style == .cancel {
+           return
+       }
+       Alertift.alert(message: "\(index). \(action.title!)")
+           .action(.default("OK"))
+           .show()
+   }
+   .show()
+```
+
+or, use `popover(sourceView:SourceRect)`
 
 ```swift
 Alertift.actionSheet(message: "Which food do you like?")
@@ -114,6 +135,7 @@ Alertift.actionSheet(message: "Which food do you like?")
    }
    .show()
 ```
+
 
 ![img5](Documents/img5.png)
 

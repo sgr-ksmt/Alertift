@@ -50,7 +50,13 @@ extension Alertift {
             _alertController.popoverPresentationController?.sourceRect = rect
             return self
         }
-        
+
+        /// Add sourceView and sourceRect to **popoverPresentationController** using anchorView.
+        ///
+        /// If you want to use action sheet on iPad, you have to use this method.
+        /// - Parameters:
+        ///   - anchorView: will be anchor of popoverPresentationController.
+        /// - Returns: Myself
         public func popover(anchorView: UIView) -> Self {
             _alertController.popoverPresentationController?.sourceView = anchorView.superview
             _alertController.popoverPresentationController?.sourceRect = anchorView.frame

@@ -190,7 +190,7 @@ static var messageTextColor: UIColor? { get set }
 - Add the following to your *Cartfile*:
 
 ```bash
-github "sgr-ksmt/Alertift" ~> 1.0
+github "sgr-ksmt/Alertift" ~> 1.3
 ```
 
 - Run `carthage update`
@@ -204,7 +204,7 @@ github "sgr-ksmt/Alertift" ~> 1.0
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'Alertift', '~> 1.0'
+pod 'Alertift', '~> 1.3'
 ```
 
 and run `pod install`

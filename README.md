@@ -94,7 +94,28 @@ Alertift.actionSheet(message: "Which food do you like?")
 ![img4](Documents/img4.png)
 
 #### for iPad
-Use `popover(sourceView:SourceRect)`
+Use `popover(anchorView:)` simply.
+
+```swift
+Alertift.actionSheet(message: "Which food do you like?")
+   .popover(anchorView: button)
+   .action(.default("🍣"))
+   .action(.default("🍎"))
+   .action(.default("🍖"))
+   .action(.default("🍅"))
+   .action(.cancel("None of them"))
+   .finally { action, index in
+       if action.style == .cancel {
+           return
+       }
+       Alertift.alert(message: "\(index). \(action.title!)")
+           .action(.default("OK"))
+           .show()
+   }
+   .show()
+```
+
+or, use `popover(sourceView:SourceRect)`
 
 ```swift
 Alertift.actionSheet(message: "Which food do you like?")
@@ -114,6 +135,7 @@ Alertift.actionSheet(message: "Which food do you like?")
    }
    .show()
 ```
+
 
 ![img5](Documents/img5.png)
 
@@ -168,7 +190,7 @@ static var messageTextColor: UIColor? { get set }
 - Add the following to your *Cartfile*:
 
 ```bash
-github "sgr-ksmt/Alertift" ~> 1.0
+github "sgr-ksmt/Alertift" ~> 1.3
 ```
 
 - Run `carthage update`
@@ -182,7 +204,7 @@ github "sgr-ksmt/Alertift" ~> 1.0
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'Alertift', '~> 1.0'
+pod 'Alertift', '~> 1.3'
 ```
 
 and run `pod install`

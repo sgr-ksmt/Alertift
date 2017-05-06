@@ -128,6 +128,11 @@ extension AlertType {
     ///   - viewController: The view controller to display over the current view controller’s content. Default is **UIApplication.shared.keyWindow?.rootViewController**
     ///   - completion: The block to execute after the presentation finishes. This block has no return value and takes no parameters. You may specify nil for this parameter.
     final public func show(on viewController: UIViewController? = UIApplication.shared.keyWindow?.rootViewController, completion: (() -> Void)? = nil) {
+        if _alertController.preferredStyle == .actionSheet && UIScreen.main.traitCollection.userInterfaceIdiom == .pad {
+            if _alertController.popoverPresentationController?.sourceView == nil {
+                _alertController.popoverPresentationController?.sourceView = viewController?.view
+            }
+        }
         viewController?.present(_alertController, animated: true, completion: completion)
     }
 }

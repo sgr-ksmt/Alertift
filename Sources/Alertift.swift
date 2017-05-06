@@ -34,6 +34,10 @@ public final class Alertift {
     public static func actionSheet(title: String? = nil, message: String? = nil) -> ActionSheet {
         return ActionSheet(title: title, message: message)
     }
+    
+    public static func actionSheet(title: String? = nil, message: String? = nil, anchorView: UIView) -> ActionSheet {
+        return ActionSheet(title: title, message: message).popover(anchorView: anchorView)
+    }
 }
 
 extension Alertift {

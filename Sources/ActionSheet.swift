@@ -50,6 +50,13 @@ extension Alertift {
             _alertController.popoverPresentationController?.sourceRect = rect
             return self
         }
+        
+        public func popover(anchorView: UIView) -> Self {
+            _alertController.popoverPresentationController?.sourceView = anchorView.superview
+            _alertController.popoverPresentationController?.sourceRect = anchorView.frame
+            return self
+        }
+
 
         /// Add barButtonItem to **popoverPresentationController**.
         ///

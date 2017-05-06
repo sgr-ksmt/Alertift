@@ -39,7 +39,7 @@ class ViewController: UIViewController {
         case .login:
             showLoginAlert()
         case .actionsheet:
-            showActionSheet(source: self.view, frame: button.frame)
+            showActionSheet(anchorView: button)
         }
     }
     
@@ -101,9 +101,8 @@ class ViewController: UIViewController {
             })
             .show()
     }
-    private func showActionSheet(source: UIView, frame: CGRect) {
-        Alertift.actionSheet(message: "Which food do you like?")
-            .popover(sourceView: source, sourceRect: frame)
+    private func showActionSheet(anchorView: UIView) {
+        Alertift.actionSheet(message: "Which food do you like?", anchorView: anchorView)
             .action(.default("🍣"))
             .action(.default("🍎"))
             .action(.default("🍖"))

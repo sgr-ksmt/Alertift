@@ -105,8 +105,9 @@ class ViewController: UIViewController {
     private func showActionSheet(anchorView: UIView) {
         Alertift.actionSheet(message: "Which food do you like?", anchorView: anchorView)
             .action(.default("🍣"))
-            .action(.default("🍎"))
-            .action(.default("🍖"))
+            .actions([.default("🍎"), .default("🍖")], handler: { (action, index) in
+                print("!!!!! action: \(action), index: \(index)")
+            })
             .action(.default("🍅"))
             .action(.cancel("None of them"))
             .finally { action, index in
@@ -118,6 +119,22 @@ class ViewController: UIViewController {
                     .show()
             }
             .show()
+
+//        Alertift.actionSheet(message: "Which food do you like?", anchorView: anchorView)
+//            .action(.default("🍣"))
+//            .action(.default("🍎"))
+//            .action(.default("🍖"))
+//            .action(.default("🍅"))
+//            .action(.cancel("None of them"))
+//            .finally { action, index in
+//                if action.style == .cancel {
+//                    return
+//                }
+//                Alertift.alert(message: "\(index). \(action.title!)")
+//                    .action(.default("OK"))
+//                    .show()
+//            }
+//            .show()
     }
 }
 

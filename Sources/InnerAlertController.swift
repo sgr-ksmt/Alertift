@@ -13,10 +13,10 @@ import UIKit
 /// subclass of **UIAlertController**
 class InnerAlertController: UIAlertController {
     /// textFieldTextDidChangeHandler: ((UITextField, Int) -> Void)
-    var textFieldTextDidChangeHandler: _Alert.TextFieldHandler?
+    var textFieldTextDidChangeHandler: Alertift.Alert.TextFieldHandler?
     
-    /// finallyHandler: (UIAlertAction, Int) -> Void
-    var finallyHandler: Alertift.FinallyHandler?
+    public typealias FinallyHandler = (UIAlertAction, Int, [UITextField]?) -> Void
+    var finallyHandler: FinallyHandler?
 
     var alertBackgroundColor: UIColor?
     var titleTextColor: UIColor? = .black
@@ -49,18 +49,21 @@ class InnerAlertController: UIAlertController {
         }
         textFieldTextDidChangeHandler?(textField, index)
     }
-    
+
+    /// Returns actionHandler
+    var actionHandler: (UIAlertAction) -> (UIAlertAction, Int) {
+        return { [weak self] action in (action, self?.actions.index(of: action) ?? -1) }
+    }
+
     /// Returns actionWithTextFieldsHandler
-    var actionWithTextFieldsHandler: () -> ([UITextField]?) {
-        return { [weak self] in
-            self?.textFields
-        }
+    var actionWithTextFieldsHandler: (UIAlertAction) -> (UIAlertAction, Int, [UITextField]?) {
+        return { [weak self] action in (action, self?.actions.index(of: action) ?? -1, self?.textFields) }
     }
     
     /// Returns finallyExecutor
     var finallyExecutor: (UIAlertAction) -> Void {
         return { [weak self] action in
-            self?.finallyHandler?(action, self?.actions.index(of: action) ?? -1)
+            self?.finallyHandler?(action, self?.actions.index(of: action) ?? -1, self?.textFields)
         }
     }
     

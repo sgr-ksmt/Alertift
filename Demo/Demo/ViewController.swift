@@ -65,12 +65,12 @@ class ViewController: UIViewController {
     
     private func showYesOrNoAlert() {
         Alertift.alert(title: "Sample 2",message: "Do you like 🍣?")
-            .action(.default("Yes"), isPreferred: true) {
+            .action(.default("Yes"), isPreferred: true) { _ in
                 Alertift.alert(message: "🍣🍣🍣")
                     .action(.default("Close"))
                     .show()
             }
-            .action(.cancel("No")) {
+            .action(.cancel("No")) { _ in
                 Alertift.alert(message: "😂😂😂")
                     .action(.destructive("Close"))
                     .show()
@@ -92,13 +92,14 @@ class ViewController: UIViewController {
                 print("\(index), \(text)")
             }
             .action(.cancel("Cancel"))
-            .action(.default("Sign in"), textFieldsHandler: { textFields in
+            .action(.default("Sign in")) {
+                let textFields = $0.2
                 let id = textFields?.first?.text ?? ""
                 let password = textFields?.last?.text ?? ""
                 Alertift.alert(title: "Sign in successfully", message: "ID: \(id)\nPassword: \(password)")
                     .action(.default("OK"))
                     .show()
-            })
+            }
             .show()
     }
     private func showActionSheet(anchorView: UIView) {

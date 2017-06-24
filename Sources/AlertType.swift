@@ -54,17 +54,8 @@ extension AlertType {
     ///   - action: action
     ///   - handler: The handler to execute after the action selected.
     /// - Returns: **UIAlertAction**
-    func buildAlertAction(_ action: Alertift.Action, handler: @escaping Alertift.ActionHandler) -> UIAlertAction {
+    func buildAlertAction(_ action: Alertift.Action, handler: @escaping Alertift.Action.Handler) -> UIAlertAction {
         return action.buildAlertAction(handler: ActionHandlerBuilder.build(handler, _alertController.finallyExecutor))
-    }
-    
-    /// Add finally handler.
-    ///
-    /// - Parameter handler: The handler to execute after either alert selected.
-    /// - Returns: Myself
-    public func finally(handler: @escaping Alertift.FinallyHandler) -> Self {
-        _alertController.finallyHandler = handler
-        return self
     }
     
     /// Change background color
@@ -134,5 +125,13 @@ extension AlertType {
             }
         }
         viewController?.present(_alertController, animated: true, completion: completion)
+    }
+}
+
+/// Deprecations
+extension AlertType {
+    @available(*, unavailable, message: "use new 'buildAlertAction(_:handler:)'")
+    func buildAlertAction(_ action: Alertift.Action, handler: @escaping () -> Void) -> UIAlertAction {
+        fatalError("")
     }
 }

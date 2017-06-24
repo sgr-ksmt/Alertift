@@ -15,6 +15,8 @@ extension Alertift {
     /// - destructive: Destructive action(action title)
     /// - cancel: Cancel description(action title)
     public enum Action {
+        typealias Handler = (UIAlertAction) -> Void
+        
         case `default`(String?)
         case destructive(String?)
         case cancel(String?)
@@ -41,8 +43,8 @@ extension Alertift {
         ///
         /// - Parameter actionHandler: Action handler for **UIAlertAction**
         /// - Returns: Instance of **UIAlertAction**
-        func buildAlertAction(handler actionHandler: @escaping (UIAlertAction) -> Void) -> UIAlertAction {
-            return UIAlertAction(title: title, style: style, handler: { actionHandler($0) })
+        func buildAlertAction(handler actionHandler: @escaping Action.Handler) -> UIAlertAction {
+            return UIAlertAction(title: title, style: style, handler: actionHandler)
         }
     }
 }

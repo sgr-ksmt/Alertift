@@ -46,16 +46,3 @@ public final class Alertift {
         return actionSheet(title: title, message: message).popover(anchorView: anchorView)
     }
 }
-
-extension Alertift {
-    /// Action handler
-    public typealias ActionHandler = () -> Void
-    
-    /// Finally handler
-    public typealias FinallyHandler = (UIAlertAction, Int) -> Void
-}
-
-
-/// Internal typealiases
-typealias _Alert = Alertift.Alert
-typealias _ActionSheet = Alertift.ActionSheet

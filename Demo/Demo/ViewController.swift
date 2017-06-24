@@ -104,11 +104,7 @@ class ViewController: UIViewController {
     }
     private func showActionSheet(anchorView: UIView) {
         Alertift.actionSheet(message: "Which food do you like?", anchorView: anchorView)
-            .action(.default("🍣"))
-            .actions([.default("🍎"), .default("🍖")], handler: { (action, index) in
-                print("!!!!! action: \(action), index: \(index)")
-            })
-            .action(.default("🍅"))
+            .actions(["🍣", "🍎", "🍖", "🍅"])
             .action(.cancel("None of them"))
             .finally { action, index in
                 if action.style == .cancel {

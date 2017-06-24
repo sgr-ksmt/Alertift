@@ -61,6 +61,10 @@ extension Alertift {
             actions.forEach { _ = action($0, handler: handler) }
             return self
         }
+        
+        public func actions(_ actions: [String?], handler: @escaping Handler = { _ in }) -> Self {
+            return self.actions(actions.map(Alertift.Action.init(title:)), handler: handler)
+        }
 
         /// Add finally handler.
         ///

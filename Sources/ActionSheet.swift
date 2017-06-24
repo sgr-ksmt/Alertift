@@ -50,6 +50,10 @@ extension Alertift {
             return self
         }
         
+        public func actions(_ actions: [String?], handler: @escaping Handler = { _ in }) -> Self {
+            return self.actions(actions.map(Alertift.Action.init(title:)), handler: handler)
+        }
+        
         /// Add finally handler.
         ///
         /// - Parameter handler: The handler to execute after either alert selected.

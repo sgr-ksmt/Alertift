@@ -21,6 +21,10 @@ extension Alertift {
         case destructive(String?)
         case cancel(String?)
         
+        init(title: String?) {
+            self = .default(title)
+        }
+        
         /// **UIAlertAction**'s title
         private var title: String? {
             switch self {

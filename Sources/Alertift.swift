@@ -49,10 +49,15 @@ public final class Alertift {
 
 extension Alertift {
     /// Action handler
+    @available(*, unavailable, message: "")
     public typealias ActionHandler = () -> Void
     
     /// Finally handler
     public typealias FinallyHandler = (UIAlertAction, Int) -> Void
+    
+    public typealias AlertHandler = (UIAlertAction, Int, [UITextField]?) -> Void
+    
+    public typealias ActionSheetHandler = (UIAlertAction, Int) -> Void
 }
 
 

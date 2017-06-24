@@ -37,7 +37,7 @@ Alertift.alert(title: "Sample 1", message: "Simple alert!")
 
 ```swift
 Alertift.alert(title: "Confirm", message: "Delete this post?")
-    .action(.destructive("Delete")) {
+    .action(.destructive("Delete")) {  _ in
         // delete post
     }
     .action(.cancel("Cancel"))
@@ -58,11 +58,11 @@ Alertift.alert(title: "Sign in", message: "Input your ID and Password")
         textField.isSecureTextEntry = true
     }
     .action(.cancel("Cancel"))
-    .action(.default("Sign in"), textFieldsHandler: { textFields in
+    .action(.default("Sign in")) { _, _, textFields in
         let id = textFields?.first?.text ?? ""
         let password = textFields?.last?.text ?? ""
         // sign in
-    })
+    }
     .show()
 ```
 

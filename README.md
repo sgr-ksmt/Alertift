@@ -17,15 +17,14 @@ Alertift.alert(title: "Alertift", message: "Alertift is swifty, modern, and awes
 
 
 ## Feature
-- Method chain
-- UITextField support
-- iPad support(Action Sheet, popover)
+- Method chain.
+- Can add multiple actions at once.
+- UITextField support.
+- iPad support(Action Sheet, popover).
 - Can change title/message/button text/ background color **without** using private APIs.
 - Can change title/message's alignment **without** using private APIs.
 
 ## Examples
-
-### Simple Alert
 
 ```swift
 Alertift.alert(title: "Sample 1", message: "Simple alert!")
@@ -49,8 +48,6 @@ Alertift.alert(title: "Confirm", message: "Delete this post?")
 ![img1](Documents/img1.png)
 
 
-### Prompt Alert
-
 ```swift
 Alertift.alert(title: "Sign in", message: "Input your ID and Password")
     .textField { textField in
@@ -71,112 +68,26 @@ Alertift.alert(title: "Sign in", message: "Input your ID and Password")
 
 ![img3](Documents/img3.png)
 
-### Action Sheet
 
 ```swift
 Alertift.actionSheet(message: "Which food do you like?")
-   .action(.default("🍣"))
-   .action(.default("🍎"))
-   .action(.default("🍖"))
-   .action(.default("🍅"))
-   .action(.cancel("None of them"))
-   .finally { action, index in
+    .actions(["🍣", "🍎", ,"🍖", "🍅"])
+    .action(.cancel("None of them"))
+    .finally { action, index in
        if action.style == .cancel {
            return
        }
        Alertift.alert(message: "\(index). \(action.title!)")
            .action(.default("OK"))
            .show()
-   }
-   .show()
+    }
+    .show()
 ```
 
 ![img4](Documents/img4.png)
 
-#### for iPad
-Use `popover(anchorView:)` simply.
 
-```swift
-Alertift.actionSheet(message: "Which food do you like?")
-   .popover(anchorView: button)
-   .action(.default("🍣"))
-   .action(.default("🍎"))
-   .action(.default("🍖"))
-   .action(.default("🍅"))
-   .action(.cancel("None of them"))
-   .finally { action, index in
-       if action.style == .cancel {
-           return
-       }
-       Alertift.alert(message: "\(index). \(action.title!)")
-           .action(.default("OK"))
-           .show()
-   }
-   .show()
-```
-
-or, use `popover(sourceView:SourceRect)`
-
-```swift
-Alertift.actionSheet(message: "Which food do you like?")
-   .popover(sourceView: self.view, sourceRect: button.frame)
-   .action(.default("🍣"))
-   .action(.default("🍎"))
-   .action(.default("🍖"))
-   .action(.default("🍅"))
-   .action(.cancel("None of them"))
-   .finally { action, index in
-       if action.style == .cancel {
-           return
-       }
-       Alertift.alert(message: "\(index). \(action.title!)")
-           .action(.default("OK"))
-           .show()
-   }
-   .show()
-```
-
-
-![img5](Documents/img5.png)
-
-### Change colors
-
-```swift
-Alertift.alert(title: "Red color title", message: "Message text color is blue")
-    .titleTextColor(.red)
-    .messageTextColor(.blue)
-    .backgroundColor(.lightGray)
-    .buttonTextColor(.orange)
-    .action(.default("Orange"))
-    .show()
-```
-
-![img6](Documents/img6.png)
-
-```swift
-public func backgroundColor(_ color: UIColor?) -> Self
-public func buttonTextColor(_ color: UIColor?) -> Self
-public func titleTextColor(_ color: UIColor?) -> Self
-public func messageTextColor(_ color: UIColor?) -> Self
-```
-
-#### Always change color
-
-If you want to change Alertift's alert(action sheet) color always,  
-set color to `static var`.
-
-```swift
-Alertift.Alert.titleTextColor = .red
-Alertift.ActionSheet.backgroundColor = .gray
-```
-
-```swift
-static var backgroundColor: UIColor? { get set }
-static var buttonTextColor: UIColor? { get set }
-static var titleTextColor: UIColor? { get set }
-static var messageTextColor: UIColor? { get set }
-```
-
+**See more: [How to use](Documents/how_to_use.md)**
 
 ## Requirements
 - iOS 9.0+

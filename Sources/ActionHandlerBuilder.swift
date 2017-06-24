@@ -12,10 +12,10 @@ final class ActionHandlerBuilder {
     private init() {}
     
     /// Build closure using two closure.
-    static func build<T: UIAlertAction>(_ h1: @escaping () -> Void, _ h2: @escaping (T) -> Void) -> (T) -> Void {
-        return { action in
-            h1()
-            h2(action)
+    static func build<T: UIAlertAction>(_ h1: @escaping (T) -> Void, _ h2: @escaping (T) -> Void) -> (T) -> Void {
+        return {
+            h1($0)
+            h2($0)
         }
     }
 }

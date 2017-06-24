@@ -11,6 +11,8 @@ import Foundation
 extension Alertift {
     /// Alert
     final public class Alert: AlertType, _AlertType {
+        public typealias Handler = (UIAlertAction, Int, [UITextField]?) -> Void
+
         /// TextFieldHandler
         public typealias TextFieldHandler = ((UITextField, Int) -> Void)
         
@@ -37,18 +39,6 @@ extension Alertift {
             buildAlertControlelr(title: title, message: message, style: .alert)
         }
         
-        /// Add alertAction to alertController
-        ///
-        /// - Parameters:
-        ///   - alertAction: UIAlertAction
-        ///   - isPreferred: If isPreferred is true, alertAction becomes preferredAction.
-        private func addActionToAlertController(_ alertAction: UIAlertAction, isPreferred: Bool) {
-            _alertController.addAction(alertAction)
-            if isPreferred {
-                _alertController.preferredAction = alertAction
-            }
-        }
-        
         /// Add action to Alert
         ///
         /// - Parameters:
@@ -56,25 +46,17 @@ extension Alertift {
         ///   - isPreferred: If you want to change this action to preferredAction, set true. Default is false.
         ///   - handler: The block to execute after this action performed.
         /// - Returns: Myself
-        @available(*, unavailable, message: "")
-        public func action(_ action: Alertift.Action, isPreferred: Bool = false, handler: @escaping Alertift.ActionHandler = {}) -> Self {
-            addActionToAlertController(buildAlertAction(action, handler: handler), isPreferred: isPreferred)
+        public func action(_ action: Alertift.Action, isPreferred: Bool = false, handler: @escaping Handler = { _ in }) -> Self {
+            addActionToAlertController(buildAlertAction(action, handler: merge(_alertController.actionWithTextFieldsHandler, handler)), isPreferred: isPreferred)
             return self
         }
-
-        /// Add action to Alert
+        
+        /// Add finally handler.
         ///
-        /// - Parameters:
-        ///   - action: Alert action.
-        ///   - isPreferred: If you want to change this action to preferredAction, set true. Default is false.
-        ///   - textFieldsHandler: The block that returns array of UITextFields to execute after this action performed.
+        /// - Parameter handler: The handler to execute after either alert selected.
         /// - Returns: Myself
-        @available(*, unavailable, message: "")
-        final public func action(_ action: Alertift.Action, isPreferred: Bool = false, textFieldsHandler handler: @escaping ActionWithTextFieldsHandler) -> Self {
-            addActionToAlertController(
-                buildAlertAction(action, handler: merge(_alertController.actionWithTextFieldsHandler, handler)),
-                isPreferred: isPreferred
-            )
+        public func finally(handler: @escaping Handler) -> Self {
+            _alertController.finallyHandler = handler
             return self
         }
 
@@ -105,8 +87,33 @@ extension Alertift {
             return self
         }
         
+        /// Add alertAction to alertController
+        ///
+        /// - Parameters:
+        ///   - alertAction: UIAlertAction
+        ///   - isPreferred: If isPreferred is true, alertAction becomes preferredAction.
+        private func addActionToAlertController(_ alertAction: UIAlertAction, isPreferred: Bool) {
+            _alertController.addAction(alertAction)
+            if isPreferred {
+                _alertController.preferredAction = alertAction
+            }
+        }
+        
         deinit {
             Debug.log()
         }
+    }
+}
+
+/// Deprecations
+extension Alertift.Alert {
+    @available(*, unavailable, message: "use new 'action(_:isPreferred:handler)'")
+    public func action(_ action: Alertift.Action, isPreferred: Bool = false, handler: @escaping () -> Void = {}) -> Self {
+        fatalError("")
+    }
+    
+    @available(*, unavailable, message: "use new 'action(_:isPreferred:handler)'")
+    final public func action(_ action: Alertift.Action, isPreferred: Bool = false, textFieldsHandler handler: @escaping ActionWithTextFieldsHandler) -> Self {
+        fatalError("")
     }
 }

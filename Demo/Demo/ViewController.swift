@@ -52,8 +52,15 @@ class ViewController: UIViewController {
         Alertift.alert(title: "Alertift", message: "Alertift is swifty, modern, and awesome UIAlertController wrapper.")
             .titleTextColor(.red)
             .messageTextColor(.blue)
-            .action(.default("❤"))
-            .action(.default("⭐"))
+            .action(.default("❤")) {
+                print($0)
+            }
+            .action(.default("⭐")) {
+                print($0)
+            }
+            .finally {
+                print($0)
+            }
             .show(on: self)
     }
     
@@ -104,7 +111,9 @@ class ViewController: UIViewController {
     }
     private func showActionSheet(anchorView: UIView) {
         Alertift.actionSheet(message: "Which food do you like?", anchorView: anchorView)
-            .actions(["🍣", "🍎", "🍖", "🍅"])
+            .actions(["🍣", "🍎", "🍖", "🍅"]) {
+                print($0)
+            }
             .action(.cancel("None of them"))
             .finally { action, index in
                 if action.style == .cancel {

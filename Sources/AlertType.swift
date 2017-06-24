@@ -12,6 +12,7 @@ import Foundation
 internal protocol _AlertType: class {
     /// inner alertController
     var _alertController: InnerAlertController! { get set }
+    func convertFinallyHandler(_ handler: Any) -> InnerAlertController.FinallyHandler
 }
 
 extension _AlertType where Self: AlertType {
@@ -53,9 +54,8 @@ public protocol AlertType: class {
 }
 
 extension AlertType {
-    /// get InnerAlertController.
-    private var _alertController: InnerAlertController {
-        return alertController as! InnerAlertController
+    private var _inner: _AlertType {
+        return self as! _AlertType
     }
     
     /// Add actions to Alert
@@ -73,12 +73,24 @@ extension AlertType {
         return self.actions(actions.map(Alertift.Action.init(title:)), handler: handler)
     }
     
+    /// Add finally handler.
+    ///
+    /// - Parameter handler: The handler to execute after either alert selected.
+    /// - Returns: Myself
+    public func finally(_ handler: Handler) -> Self {
+        _inner._alertController.finallyHandler = _inner.convertFinallyHandler(handler)
+        return self
+    }
+    
+    
+
+    
     /// Change background color
     ///
     /// - Parameter color: UIColor
     /// - Returns: Myself
     public func backgroundColor(_ color: UIColor?) -> Self {
-        _alertController.alertBackgroundColor = color
+        _inner._alertController.alertBackgroundColor = color
         return self
     }
     
@@ -87,7 +99,7 @@ extension AlertType {
     /// - Parameter color: UIColor
     /// - Returns: Myself
     public func buttonTextColor(_ color: UIColor?) -> Self {
-        _alertController.view.tintColor = color
+        _inner._alertController.view.tintColor = color
         return self
     }
     
@@ -96,7 +108,7 @@ extension AlertType {
     /// - Parameter color: UIColor
     /// - Returns: Myself
     public func titleTextColor(_ color: UIColor?) -> Self {
-        _alertController.titleTextColor = color
+        _inner._alertController.titleTextColor = color
         return self
     }
     
@@ -105,7 +117,7 @@ extension AlertType {
     /// - Parameter color: UIColor
     /// - Returns: Myself
     public func messageTextColor(_ color: UIColor?) -> Self {
-        _alertController.messageTextColor = color
+        _inner._alertController.messageTextColor = color
         return self
     }
     
@@ -114,7 +126,7 @@ extension AlertType {
     /// - Parameter alignment: NSTextAlignment
     /// - Returns: Myself
     public func titleTextAlignment(_ alignment: NSTextAlignment) -> Self {
-        _alertController.titleTextAlignment = alignment
+        _inner._alertController.titleTextAlignment = alignment
         return self
     }
     
@@ -123,7 +135,7 @@ extension AlertType {
     /// - Parameter alignment: NSTextAlignment
     /// - Returns: Myself
     public func messageTextAlignment(_ alignment: NSTextAlignment) -> Self {
-        _alertController.messageTextAlignment = alignment
+        _inner._alertController.messageTextAlignment = alignment
         return self
     }
 
@@ -134,12 +146,12 @@ extension AlertType {
     ///   - viewController: The view controller to display over the current view controller’s content. Default is **UIApplication.shared.keyWindow?.rootViewController**
     ///   - completion: The block to execute after the presentation finishes. This block has no return value and takes no parameters. You may specify nil for this parameter.
     final public func show(on viewController: UIViewController? = UIApplication.shared.keyWindow?.rootViewController, completion: (() -> Void)? = nil) {
-        if _alertController.preferredStyle == .actionSheet && UIScreen.main.traitCollection.userInterfaceIdiom == .pad {
-            if _alertController.popoverPresentationController?.sourceView == nil {
-                _alertController.popoverPresentationController?.sourceView = viewController?.view
+        if _inner._alertController.preferredStyle == .actionSheet && UIScreen.main.traitCollection.userInterfaceIdiom == .pad {
+            if _inner._alertController.popoverPresentationController?.sourceView == nil {
+                _inner._alertController.popoverPresentationController?.sourceView = viewController?.view
             }
         }
-        viewController?.present(_alertController, animated: true, completion: completion)
+        viewController?.present(_inner._alertController, animated: true, completion: completion)
     }
     
     /// Build **UIAlertAction** using **Alertift.Action** and handler.
@@ -149,7 +161,9 @@ extension AlertType {
     ///   - handler: The handler to execute after the action selected.
     /// - Returns: **UIAlertAction**
     func buildAlertAction(_ action: Alertift.Action, handler: Alertift.Action.Handler?) -> UIAlertAction {
-        return action.buildAlertAction(handler: handler.map { ActionHandlerBuilder.build($0, _alertController.finallyExecutor) })
+        return action.buildAlertAction(handler:
+            handler.map { ActionHandlerBuilder.build($0, _inner._alertController.finallyExecutor)
+        })
     }
 }
 

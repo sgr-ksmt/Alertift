@@ -35,19 +35,12 @@ extension Alertift {
         
         /// Add action to alertController
         public func action(_ action: Alertift.Action, handler: Handler? = nil) -> Self {
-            _alertController.addAction(buildAlertAction(action, handler: handler.map { merge(_alertController.actionHandler, $0) }))
+            _alertController.addAction(buildAlertAction(action, handler:
+                merge(_alertController.actionHandler, handler ?? { _ in })
+            ))
             return self
         }
                 
-        /// Add finally handler.
-        ///
-        /// - Parameter handler: The handler to execute after either alert selected.
-        /// - Returns: Myself
-        public func finally(handler: @escaping Handler) -> Self {
-            _alertController.finallyHandler = { handler($0.0, $0.1) }
-            return self
-        }
-
         /// Add sourceView and sourceRect to **popoverPresentationController**.
         ///
         /// If you want to use action sheet on iPad, you have to use this method.
@@ -83,6 +76,10 @@ extension Alertift {
         public func popover(barButtonItem: UIBarButtonItem?) -> Self {
             _alertController.popoverPresentationController?.barButtonItem = barButtonItem
             return self
+        }
+        
+        func convertFinallyHandler(_ handler: Any) -> InnerAlertController.FinallyHandler {
+            return { (handler as? Handler)?($0.0, $0.1) }
         }
         
         deinit {

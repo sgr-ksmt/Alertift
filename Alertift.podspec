@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Alertift"
-  s.version          = "1.3"
+  s.version          = "2.0"
   s.summary          = "UIAlertControlelr wrapper for Swift."
   s.homepage         = "https://github.com/sgr-ksmt/Alertift"
   # s.screenshots     = ""

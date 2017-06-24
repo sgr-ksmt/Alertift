@@ -54,6 +54,7 @@ extension AlertType {
     ///   - action: action
     ///   - handler: The handler to execute after the action selected.
     /// - Returns: **UIAlertAction**
+    @available(*, unavailable, message: "")
     func buildAlertAction(_ action: Alertift.Action, handler: @escaping Alertift.ActionHandler) -> UIAlertAction {
         return action.buildAlertAction(handler: ActionHandlerBuilder.build(handler, _alertController.finallyExecutor))
     }

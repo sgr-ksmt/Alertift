@@ -33,6 +33,7 @@ extension Alertift {
         }
         
         /// Add action to alertController
+        @available(*, unavailable, message: "")
         public func action(_ action: Alertift.Action, handler: @escaping Alertift.ActionHandler = {}) -> Self {
             _alertController.addAction(buildAlertAction(action, handler: handler))
             return self

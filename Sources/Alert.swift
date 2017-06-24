@@ -56,6 +56,7 @@ extension Alertift {
         ///   - isPreferred: If you want to change this action to preferredAction, set true. Default is false.
         ///   - handler: The block to execute after this action performed.
         /// - Returns: Myself
+        @available(*, unavailable, message: "")
         public func action(_ action: Alertift.Action, isPreferred: Bool = false, handler: @escaping Alertift.ActionHandler = {}) -> Self {
             addActionToAlertController(buildAlertAction(action, handler: handler), isPreferred: isPreferred)
             return self
@@ -68,6 +69,7 @@ extension Alertift {
         ///   - isPreferred: If you want to change this action to preferredAction, set true. Default is false.
         ///   - textFieldsHandler: The block that returns array of UITextFields to execute after this action performed.
         /// - Returns: Myself
+        @available(*, unavailable, message: "")
         final public func action(_ action: Alertift.Action, isPreferred: Bool = false, textFieldsHandler handler: @escaping ActionWithTextFieldsHandler) -> Self {
             addActionToAlertController(
                 buildAlertAction(action, handler: merge(_alertController.actionWithTextFieldsHandler, handler)),

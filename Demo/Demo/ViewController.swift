@@ -52,8 +52,15 @@ class ViewController: UIViewController {
         Alertift.alert(title: "Alertift", message: "Alertift is swifty, modern, and awesome UIAlertController wrapper.")
             .titleTextColor(.red)
             .messageTextColor(.blue)
-            .action(.default("❤"))
-            .action(.default("⭐"))
+            .action(.default("❤")) {
+                print($0)
+            }
+            .action(.default("⭐")) {
+                print($0)
+            }
+            .finally {
+                print($0)
+            }
             .show(on: self)
     }
     
@@ -65,12 +72,12 @@ class ViewController: UIViewController {
     
     private func showYesOrNoAlert() {
         Alertift.alert(title: "Sample 2",message: "Do you like 🍣?")
-            .action(.default("Yes"), isPreferred: true) {
+            .action(.default("Yes"), isPreferred: true) { _ in
                 Alertift.alert(message: "🍣🍣🍣")
                     .action(.default("Close"))
                     .show()
             }
-            .action(.cancel("No")) {
+            .action(.cancel("No")) { _ in
                 Alertift.alert(message: "😂😂😂")
                     .action(.destructive("Close"))
                     .show()
@@ -92,21 +99,21 @@ class ViewController: UIViewController {
                 print("\(index), \(text)")
             }
             .action(.cancel("Cancel"))
-            .action(.default("Sign in"), textFieldsHandler: { textFields in
+            .action(.default("Sign in")) {
+                let textFields = $0.2
                 let id = textFields?.first?.text ?? ""
                 let password = textFields?.last?.text ?? ""
                 Alertift.alert(title: "Sign in successfully", message: "ID: \(id)\nPassword: \(password)")
                     .action(.default("OK"))
                     .show()
-            })
+            }
             .show()
     }
     private func showActionSheet(anchorView: UIView) {
         Alertift.actionSheet(message: "Which food do you like?", anchorView: anchorView)
-            .action(.default("🍣"))
-            .action(.default("🍎"))
-            .action(.default("🍖"))
-            .action(.default("🍅"))
+            .actions(["🍣", "🍎", "🍖", "🍅"]) {
+                print($0)
+            }
             .action(.cancel("None of them"))
             .finally { action, index in
                 if action.style == .cancel {
@@ -117,6 +124,22 @@ class ViewController: UIViewController {
                     .show()
             }
             .show()
+
+//        Alertift.actionSheet(message: "Which food do you like?", anchorView: anchorView)
+//            .action(.default("🍣"))
+//            .action(.default("🍎"))
+//            .action(.default("🍖"))
+//            .action(.default("🍅"))
+//            .action(.cancel("None of them"))
+//            .finally { action, index in
+//                if action.style == .cancel {
+//                    return
+//                }
+//                Alertift.alert(message: "\(index). \(action.title!)")
+//                    .action(.default("OK"))
+//                    .show()
+//            }
+//            .show()
     }
 }
 

@@ -34,35 +34,13 @@ extension Alertift {
         }
         
         /// Add action to alertController
-        public func action(_ action: Alertift.Action, handler: @escaping Handler = { _ in}) -> Self {
-            _alertController.addAction(buildAlertAction(action, handler: merge(_alertController.actionHandler, handler)))
+        public func action(_ action: Alertift.Action, handler: Handler? = nil) -> Self {
+            _alertController.addAction(buildAlertAction(action, handler:
+                merge(_alertController.actionHandler, handler ?? { _ in })
+            ))
             return self
         }
-        
-        /// Add actions to Alert
-        ///
-        /// - Parameters:
-        ///   - actions: Alert actions.
-        ///   - handler: The block to execute after this action performed.
-        /// - Returns: Myself
-        public func actions(_ actions: [Alertift.Action], handler: @escaping Handler = { _ in }) -> Self {
-            actions.forEach { _ = action($0, handler: handler) }
-            return self
-        }
-        
-        public func actions(_ actions: [String?], handler: @escaping Handler = { _ in }) -> Self {
-            return self.actions(actions.map(Alertift.Action.init(title:)), handler: handler)
-        }
-        
-        /// Add finally handler.
-        ///
-        /// - Parameter handler: The handler to execute after either alert selected.
-        /// - Returns: Myself
-        public func finally(handler: @escaping Handler) -> Self {
-            _alertController.finallyHandler = { handler($0.0, $0.1) }
-            return self
-        }
-
+                
         /// Add sourceView and sourceRect to **popoverPresentationController**.
         ///
         /// If you want to use action sheet on iPad, you have to use this method.
@@ -98,6 +76,10 @@ extension Alertift {
         public func popover(barButtonItem: UIBarButtonItem?) -> Self {
             _alertController.popoverPresentationController?.barButtonItem = barButtonItem
             return self
+        }
+        
+        func convertFinallyHandler(_ handler: Any) -> InnerAlertController.FinallyHandler {
+            return { (handler as? Handler)?($0.0, $0.1) }
         }
         
         deinit {

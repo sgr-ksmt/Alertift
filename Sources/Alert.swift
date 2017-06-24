@@ -39,6 +39,10 @@ extension Alertift {
             buildAlertControlelr(title: title, message: message, style: .alert)
         }
         
+        public func action(_ action: Alertift.Action, handler: Handler? = nil) -> Self {
+            return self.action(action, isPreferred: false, handler: handler)
+        }
+
         /// Add action to Alert
         ///
         /// - Parameters:
@@ -46,32 +50,14 @@ extension Alertift {
         ///   - isPreferred: If you want to change this action to preferredAction, set true. Default is false.
         ///   - handler: The block to execute after this action performed.
         /// - Returns: Myself
-        public func action(_ action: Alertift.Action, isPreferred: Bool = false, handler: @escaping Handler = { _ in }) -> Self {
-            addActionToAlertController(buildAlertAction(action, handler: merge(_alertController.actionWithTextFieldsHandler, handler)), isPreferred: isPreferred)
-            return self
-        }
-
-        /// Add actions to Alert
-        ///
-        /// - Parameters:
-        ///   - actions: Alert actions.
-        ///   - handler: The block to execute after this action performed.
-        /// - Returns: Myself
-        public func actions(_ actions: [Alertift.Action], handler: @escaping Handler = { _ in }) -> Self {
-            actions.forEach { _ = action($0, handler: handler) }
-            return self
-        }
-        
-        public func actions(_ actions: [String?], handler: @escaping Handler = { _ in }) -> Self {
-            return self.actions(actions.map(Alertift.Action.init(title:)), handler: handler)
-        }
-
-        /// Add finally handler.
-        ///
-        /// - Parameter handler: The handler to execute after either alert selected.
-        /// - Returns: Myself
-        public func finally(handler: @escaping Handler) -> Self {
-            _alertController.finallyHandler = handler
+        public func action(_ action: Alertift.Action, isPreferred: Bool, handler: Handler? = nil) -> Self {
+            addActionToAlertController(
+                buildAlertAction(
+                    action,
+                    handler: merge(_alertController.actionWithTextFieldsHandler, handler ?? { _ in })
+                ),
+                isPreferred: isPreferred
+            )
             return self
         }
 
@@ -81,11 +67,8 @@ extension Alertift {
         /// - Returns: Myself
         public func textField(configurationHandler handler: ((UITextField) -> Void)? = nil) -> Self {
             _alertController.addTextField { [weak self] textField in
-                guard let strongSelf = self else {
-                    return
-                }
                 handler?(textField)
-                strongSelf._alertController.registerTextFieldObserver(textField)
+                self?._alertController.registerTextFieldObserver(textField)
             }
             
             return self
@@ -112,6 +95,10 @@ extension Alertift {
             if isPreferred {
                 _alertController.preferredAction = alertAction
             }
+        }
+        
+        func convertFinallyHandler(_ handler: Any) -> InnerAlertController.FinallyHandler {
+            return { (handler as? Handler)?($0.0, $0.1, $0.2) }
         }
         
         deinit {

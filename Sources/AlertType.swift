@@ -27,6 +27,16 @@ extension _AlertType where Self: AlertType {
 
 /// AlertType protocol
 public protocol AlertType: class {
+    associatedtype Handler
+
+    /// Add action to Alert
+    ///
+    /// - Parameters:
+    ///   - action: Alert action.
+    ///   - handler: The block to execute after this action performed.
+    /// - Returns: Myself
+    func action(_ action: Alertift.Action, handler: Handler?) -> Self
+    
     /// UIAlertController
     var alertController: UIAlertController { get }
     /// default background color of Alert(ActionSheet).
@@ -48,14 +58,19 @@ extension AlertType {
         return alertController as! InnerAlertController
     }
     
-    /// Build **UIAlertAction** using **Alertift.Action** and handler.
+    /// Add actions to Alert
     ///
     /// - Parameters:
-    ///   - action: action
-    ///   - handler: The handler to execute after the action selected.
-    /// - Returns: **UIAlertAction**
-    func buildAlertAction(_ action: Alertift.Action, handler: @escaping Alertift.Action.Handler) -> UIAlertAction {
-        return action.buildAlertAction(handler: ActionHandlerBuilder.build(handler, _alertController.finallyExecutor))
+    ///   - actions: Alert actions.
+    ///   - handler: The block to execute after this action performed.
+    /// - Returns: Myself
+    public func actions(_ actions: [Alertift.Action], handler: Handler? = nil) -> Self {
+        actions.forEach { _ = action($0, handler: handler) }
+        return self
+    }
+    
+    public func actions(_ actions: [String?], handler: Handler? = nil) -> Self {
+        return self.actions(actions.map(Alertift.Action.init(title:)), handler: handler)
     }
     
     /// Change background color
@@ -125,6 +140,16 @@ extension AlertType {
             }
         }
         viewController?.present(_alertController, animated: true, completion: completion)
+    }
+    
+    /// Build **UIAlertAction** using **Alertift.Action** and handler.
+    ///
+    /// - Parameters:
+    ///   - action: action
+    ///   - handler: The handler to execute after the action selected.
+    /// - Returns: **UIAlertAction**
+    func buildAlertAction(_ action: Alertift.Action, handler: Alertift.Action.Handler?) -> UIAlertAction {
+        return action.buildAlertAction(handler: handler.map { ActionHandlerBuilder.build($0, _alertController.finallyExecutor) })
     }
 }
 

@@ -47,7 +47,7 @@ extension Alertift {
         ///
         /// - Parameter actionHandler: Action handler for **UIAlertAction**
         /// - Returns: Instance of **UIAlertAction**
-        func buildAlertAction(handler actionHandler: @escaping Action.Handler) -> UIAlertAction {
+        func buildAlertAction(handler actionHandler: Action.Handler?) -> UIAlertAction {
             return UIAlertAction(title: title, style: style, handler: actionHandler)
         }
     }

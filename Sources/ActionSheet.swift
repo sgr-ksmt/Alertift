@@ -34,26 +34,11 @@ extension Alertift {
         }
         
         /// Add action to alertController
-        public func action(_ action: Alertift.Action, handler: @escaping Handler = { _ in}) -> Self {
-            _alertController.addAction(buildAlertAction(action, handler: merge(_alertController.actionHandler, handler)))
+        public func action(_ action: Alertift.Action, handler: Handler? = nil) -> Self {
+            _alertController.addAction(buildAlertAction(action, handler: handler.map { merge(_alertController.actionHandler, $0) }))
             return self
         }
-        
-        /// Add actions to Alert
-        ///
-        /// - Parameters:
-        ///   - actions: Alert actions.
-        ///   - handler: The block to execute after this action performed.
-        /// - Returns: Myself
-        public func actions(_ actions: [Alertift.Action], handler: @escaping Handler = { _ in }) -> Self {
-            actions.forEach { _ = action($0, handler: handler) }
-            return self
-        }
-        
-        public func actions(_ actions: [String?], handler: @escaping Handler = { _ in }) -> Self {
-            return self.actions(actions.map(Alertift.Action.init(title:)), handler: handler)
-        }
-        
+                
         /// Add finally handler.
         ///
         /// - Parameter handler: The handler to execute after either alert selected.

@@ -39,6 +39,11 @@ extension Alertift {
             buildAlertControlelr(title: title, message: message, style: .alert)
         }
         
+        public func action(_ action: Alertift.Action, handler: Handler? = nil) -> Self {
+            addActionToAlertController(buildAlertAction(action, handler: handler.map { merge(_alertController.actionWithTextFieldsHandler, $0) }), isPreferred: false)
+            return self
+        }
+
         /// Add action to Alert
         ///
         /// - Parameters:
@@ -46,24 +51,9 @@ extension Alertift {
         ///   - isPreferred: If you want to change this action to preferredAction, set true. Default is false.
         ///   - handler: The block to execute after this action performed.
         /// - Returns: Myself
-        public func action(_ action: Alertift.Action, isPreferred: Bool = false, handler: @escaping Handler = { _ in }) -> Self {
-            addActionToAlertController(buildAlertAction(action, handler: merge(_alertController.actionWithTextFieldsHandler, handler)), isPreferred: isPreferred)
+        public func action(_ action: Alertift.Action, isPreferred: Bool, handler: Handler? = nil) -> Self {
+            addActionToAlertController(buildAlertAction(action, handler: handler.map { merge(_alertController.actionWithTextFieldsHandler, $0) }), isPreferred: isPreferred)
             return self
-        }
-
-        /// Add actions to Alert
-        ///
-        /// - Parameters:
-        ///   - actions: Alert actions.
-        ///   - handler: The block to execute after this action performed.
-        /// - Returns: Myself
-        public func actions(_ actions: [Alertift.Action], handler: @escaping Handler = { _ in }) -> Self {
-            actions.forEach { _ = action($0, handler: handler) }
-            return self
-        }
-        
-        public func actions(_ actions: [String?], handler: @escaping Handler = { _ in }) -> Self {
-            return self.actions(actions.map(Alertift.Action.init(title:)), handler: handler)
         }
 
         /// Add finally handler.

@@ -101,7 +101,7 @@ Alertift.actionSheet(message: "Which food do you like?")
 - Add the following to your *Cartfile*:
 
 ```bash
-github "sgr-ksmt/Alertift" ~> 1.3
+github "sgr-ksmt/Alertift" ~> 2.0
 ```
 
 - Run `carthage update`
@@ -115,7 +115,7 @@ github "sgr-ksmt/Alertift" ~> 1.3
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'Alertift', '~> 1.3'
+pod 'Alertift', '~> 2.0'
 ```
 
 and run `pod install`

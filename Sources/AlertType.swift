@@ -145,7 +145,7 @@ extension AlertType {
     /// - Parameters:
     ///   - viewController: The view controller to display over the current view controller’s content. Default is **UIApplication.shared.keyWindow?.rootViewController**
     ///   - completion: The block to execute after the presentation finishes. This block has no return value and takes no parameters. You may specify nil for this parameter.
-    final public func show(on viewController: UIViewController? = UIApplication.shared.keyWindow?.rootViewController, completion: (() -> Void)? = nil) {
+    public func show(on viewController: UIViewController? = UIApplication.shared.keyWindow?.rootViewController, completion: (() -> Void)? = nil) {
         if _inner._alertController.preferredStyle == .actionSheet && UIScreen.main.traitCollection.userInterfaceIdiom == .pad {
             if _inner._alertController.popoverPresentationController?.sourceView == nil {
                 _inner._alertController.popoverPresentationController?.sourceView = viewController?.view
@@ -164,13 +164,5 @@ extension AlertType {
         return action.buildAlertAction(handler:
             handler.map { ActionHandlerBuilder.build($0, _inner._alertController.finallyExecutor)
         })
-    }
-}
-
-/// Deprecations
-extension AlertType {
-    @available(*, unavailable, message: "use new 'buildAlertAction(_:handler:)'")
-    func buildAlertAction(_ action: Alertift.Action, handler: @escaping () -> Void) -> UIAlertAction {
-        fatalError("")
     }
 }

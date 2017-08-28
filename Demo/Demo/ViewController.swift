@@ -52,14 +52,14 @@ class ViewController: UIViewController {
         Alertift.alert(title: "Alertift", message: "Alertift is swifty, modern, and awesome UIAlertController wrapper.")
             .titleTextColor(.red)
             .messageTextColor(.blue)
-            .action(.default("❤")) {
-                print($0)
+            .action(.default("❤")) { (action, index, _) in
+                print(action, index)
             }
-            .action(.default("⭐")) {
-                print($0)
+            .action(.default("⭐")) { (action, index, _) in
+                print(action, index)
             }
-            .finally {
-                print($0)
+            .finally { (action, index, _) in
+                print(action, index)
             }
             .show(on: self)
     }
@@ -72,12 +72,12 @@ class ViewController: UIViewController {
     
     private func showYesOrNoAlert() {
         Alertift.alert(title: "Sample 2",message: "Do you like 🍣?")
-            .action(.default("Yes"), isPreferred: true) { _ in
+            .action(.default("Yes"), isPreferred: true) { (_, _, _) in
                 Alertift.alert(message: "🍣🍣🍣")
                     .action(.default("Close"))
                     .show()
             }
-            .action(.cancel("No")) { _ in
+            .action(.cancel("No")) { (_, _, _) in
                 Alertift.alert(message: "😂😂😂")
                     .action(.destructive("Close"))
                     .show()
@@ -99,8 +99,7 @@ class ViewController: UIViewController {
                 print("\(index), \(text)")
             }
             .action(.cancel("Cancel"))
-            .action(.default("Sign in")) {
-                let textFields = $0.2
+            .action(.default("Sign in")) { (_, _, textFields) in
                 let id = textFields?.first?.text ?? ""
                 let password = textFields?.last?.text ?? ""
                 Alertift.alert(title: "Sign in successfully", message: "ID: \(id)\nPassword: \(password)")
@@ -111,8 +110,8 @@ class ViewController: UIViewController {
     }
     private func showActionSheet(anchorView: UIView) {
         Alertift.actionSheet(message: "Which food do you like?", anchorView: anchorView)
-            .actions(["🍣", "🍎", "🍖", "🍅"]) {
-                print($0)
+            .actions(["🍣", "🍎", "🍖", "🍅"]) { (action, index) in
+                print(action, index)
             }
             .action(.cancel("None of them"))
             .finally { action, index in

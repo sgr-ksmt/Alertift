@@ -10,7 +10,7 @@ Alertift.alert(title: "Alertift", message: "Alertift is swifty, modern, and awes
 ```
 
 [![GitHub release](https://img.shields.io/github/release/sgr-ksmt/Alertift.svg)](https://github.com/sgr-ksmt/Alertift/releases)
-![Language](https://img.shields.io/badge/language-Swift%203-orange.svg)
+![Language](https://img.shields.io/badge/language-Swift%204.0-orange.svg)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods](https://img.shields.io/badge/Cocoa%20Pods-✓-4BC51D.svg?style=flat)](https://cocoapods.org/pods/Alertift)
 [![CocoaPodsDL](https://img.shields.io/cocoapods/dt/Alertift.svg)](https://cocoapods.org/pods/Alertift)
@@ -101,7 +101,11 @@ Alertift.actionSheet(message: "Which food do you like?")
 - Add the following to your *Cartfile*:
 
 ```bash
-github "sgr-ksmt/Alertift" ~> 1.3
+# Swift4 or later
+github "sgr-ksmt/Alertift" ~> 3.0
+
+# Less than Swift4
+github "sgr-ksmt/Alertift" ~> 2.0
 ```
 
 - Run `carthage update`
@@ -115,7 +119,11 @@ github "sgr-ksmt/Alertift" ~> 1.3
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'Alertift', '~> 1.3'
+# Swift4 or later
+pod 'Alertift', '~> 3.0'
+
+# Less than Swift4
+pod 'Alertift', '~> 2.0'
 ```
 
 and run `pod install`

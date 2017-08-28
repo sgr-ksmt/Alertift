@@ -54,7 +54,7 @@ extension Alertift {
             addActionToAlertController(
                 buildAlertAction(
                     action,
-                    handler: merge(_alertController.actionWithTextFieldsHandler, handler ?? { _ in })
+                    handler: merge(_alertController.actionWithTextFieldsHandler, handler ?? { (_, _, _)in })
                 ),
                 isPreferred: isPreferred
             )
@@ -98,24 +98,11 @@ extension Alertift {
         }
         
         func convertFinallyHandler(_ handler: Any) -> InnerAlertController.FinallyHandler {
-            return { (handler as? Handler)?($0.0, $0.1, $0.2) }
+            return { (handler as? Handler)?($0, $1, $2) }
         }
         
         deinit {
             Debug.log()
         }
-    }
-}
-
-/// Deprecations
-extension Alertift.Alert {
-    @available(*, unavailable, message: "use new 'action(_:isPreferred:handler)'")
-    public func action(_ action: Alertift.Action, isPreferred: Bool = false, handler: @escaping () -> Void = {}) -> Self {
-        fatalError("")
-    }
-    
-    @available(*, unavailable, message: "use new 'action(_:isPreferred:handler)'")
-    final public func action(_ action: Alertift.Action, isPreferred: Bool = false, textFieldsHandler handler: @escaping ActionWithTextFieldsHandler) -> Self {
-        fatalError("")
     }
 }

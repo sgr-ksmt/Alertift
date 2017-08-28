@@ -36,7 +36,7 @@ extension Alertift {
         /// Add action to alertController
         public func action(_ action: Alertift.Action, handler: Handler? = nil) -> Self {
             _alertController.addAction(buildAlertAction(action, handler:
-                merge(_alertController.actionHandler, handler ?? { _ in })
+                merge(_alertController.actionHandler, handler ?? { (_, _) in })
             ))
             return self
         }
@@ -79,19 +79,11 @@ extension Alertift {
         }
         
         func convertFinallyHandler(_ handler: Any) -> InnerAlertController.FinallyHandler {
-            return { (handler as? Handler)?($0.0, $0.1) }
+            return { (action, index, _) in  (handler as? Handler)?(action, index) }
         }
         
         deinit {
             Debug.log()
         }
-    }
-}
-
-/// Deprecations
-extension Alertift.ActionSheet {
-    @available(*, unavailable, message: "use new 'action(_:handler)'")
-    public func action(_ action: Alertift.Action, handler: @escaping () -> Void = {}) -> Self {
-        fatalError("")
     }
 }

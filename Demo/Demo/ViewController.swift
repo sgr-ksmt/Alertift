@@ -109,26 +109,10 @@ class ViewController: UIViewController {
             .show()
     }
     private func showActionSheet(anchorView: UIView) {
-        Alertift.actionSheet(message: "Which food do you like?", anchorView: anchorView)
-            .actions(["🍣", "🍎", "🍖", "🍅"]) { (action, index) in
-                print(action, index)
-            }
-            .action(.cancel("None of them"))
-            .finally { action, index in
-                if action.style == .cancel {
-                    return
-                }
-                Alertift.alert(message: "\(index). \(action.title!)")
-                    .action(.default("OK"))
-                    .show()
-            }
-            .show()
-
 //        Alertift.actionSheet(message: "Which food do you like?", anchorView: anchorView)
-//            .action(.default("🍣"))
-//            .action(.default("🍎"))
-//            .action(.default("🍖"))
-//            .action(.default("🍅"))
+//            .actions(["🍣", "🍎", "🍖", "🍅"]) { (action, index) in
+//                print(action, index)
+//            }
 //            .action(.cancel("None of them"))
 //            .finally { action, index in
 //                if action.style == .cancel {
@@ -139,6 +123,22 @@ class ViewController: UIViewController {
 //                    .show()
 //            }
 //            .show()
+
+        Alertift.actionSheet(message: "Which food do you like?", anchorView: anchorView)
+            .action(.default("🍣"), image: #imageLiteral(resourceName: "icon"))
+            .action(.default("🍎"), image: #imageLiteral(resourceName: "icon"))
+            .action(.default("🍖"), image: #imageLiteral(resourceName: "icon"))
+            .action(.default("🍅"), image: #imageLiteral(resourceName: "icon"))
+            .action(.cancel("None of them"))
+            .finally { action, index in
+                if action.style == .cancel {
+                    return
+                }
+                Alertift.alert(message: "\(index). \(action.title!)")
+                    .action(.default("OK"))
+                    .show()
+            }
+            .show()
     }
 }
 

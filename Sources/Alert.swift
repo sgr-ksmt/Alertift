@@ -9,6 +9,12 @@
 import Foundation
 
 extension Alertift {
+    public enum AlertImagePosition {
+        case top // Above title and message
+        case center // Between title and message
+        case bottom // Below title and message
+    }
+    
     /// Alert
     final public class Alert: AlertType, _AlertType {
         public typealias Handler = (UIAlertAction, Int, [UITextField]?) -> Void
@@ -99,6 +105,11 @@ extension Alertift {
         
         func convertFinallyHandler(_ handler: Any) -> InnerAlertController.FinallyHandler {
             return { (handler as? Handler)?($0, $1, $2) }
+        }
+
+        public func image(_ image: UIImage?) -> Self {
+            _alertController.setImage(image)
+            return self
         }
         
         deinit {

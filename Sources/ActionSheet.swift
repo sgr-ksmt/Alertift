@@ -93,7 +93,12 @@ extension Alertift {
         func convertFinallyHandler(_ handler: Any) -> InnerAlertController.FinallyHandler {
             return { (action, index, _) in  (handler as? Handler)?(action, index) }
         }
-        
+
+        public func image(_ image: UIImage?) -> Self {
+            _alertController.setImage(image)
+            return self
+        }
+
         deinit {
             Debug.log()
         }

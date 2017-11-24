@@ -50,6 +50,7 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         Alertift.alert(title: "Alertift", message: "Alertift is swifty, modern, and awesome UIAlertController wrapper.")
+            .image(#imageLiteral(resourceName: "alertImage"))
             .titleTextColor(.red)
             .messageTextColor(.blue)
             .action(.default("❤")) { (action, index, _) in
@@ -66,6 +67,7 @@ class ViewController: UIViewController {
     
     private func showSimpleAlert() {
         Alertift.alert(title: "Sample 1", message: "Simple alert!")
+            .image(#imageLiteral(resourceName: "alertImage"))
             .action(.default("OK"))
             .show()
     }
@@ -123,8 +125,9 @@ class ViewController: UIViewController {
 //                    .show()
 //            }
 //            .show()
-
-        Alertift.actionSheet(message: "Which food do you like?", anchorView: anchorView)
+//message: "Which food do you like?"
+        Alertift.actionSheet(anchorView: anchorView)
+            .image(#imageLiteral(resourceName: "alertImage"))
             .action(.default("🍣"), image: #imageLiteral(resourceName: "icon"))
             .action(.default("🍎"), image: #imageLiteral(resourceName: "icon"))
             .action(.default("🍖"), image: #imageLiteral(resourceName: "icon"))

@@ -59,8 +59,9 @@ class ViewController: UIViewController {
             .action(.default("⭐")) { (action, index, _) in
                 print(action, index)
             }
-            .finally { (action, index, _) in
+            .finally { [weak self] (action, index, _) in
                 print(action, index)
+                self?.showAlertWithActionImage()
             }
             .show(on: self)
     }
@@ -110,24 +111,15 @@ class ViewController: UIViewController {
             }
             .show()
     }
+
+    private func showAlertWithActionImage() {
+        Alertift.alert(message: "Can use image in alert action")
+            .action(.default("info"), image: #imageLiteral(resourceName: "icon"))
+            .show(on: self)
+    }
+
     private func showActionSheet(anchorView: UIView) {
-//        Alertift.actionSheet(message: "Which food do you like?", anchorView: anchorView)
-//            .actions(["🍣", "🍎", "🍖", "🍅"]) { (action, index) in
-//                print(action, index)
-//            }
-//            .action(.cancel("None of them"))
-//            .finally { action, index in
-//                if action.style == .cancel {
-//                    return
-//                }
-//                Alertift.alert(message: "\(index). \(action.title!)")
-//                    .action(.default("OK"))
-//                    .show()
-//            }
-//            .show()
-//message: "Which food do you like?"
-        Alertift.actionSheet(anchorView: anchorView)
-            .image(#imageLiteral(resourceName: "alertImage"))
+        Alertift.actionSheet(message: "Which food do you like?", anchorView: anchorView)
             .action(.default("🍣"), image: #imageLiteral(resourceName: "icon"))
             .action(.default("🍎"), image: #imageLiteral(resourceName: "icon"))
             .action(.default("🍖"), image: #imageLiteral(resourceName: "icon"))

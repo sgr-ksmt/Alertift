@@ -9,20 +9,33 @@
 import Foundation
 import UIKit
 
+extension Alertift {
+    public enum ImageTopMargin {
+        case none
+        case belowRoundCorner
+
+        var margin: CGFloat {
+            switch self {
+            case .none: return 0.0
+            case .belowRoundCorner: return 16.0
+            }
+        }
+    }
+}
+
 /// InnerAlertController
 /// subclass of **UIAlertController**
 class InnerAlertController: UIAlertController {
     typealias AdjustInfo = (lineCount: Int, height: CGFloat)
 
-    /// - Return: value that was set on `title`
     private(set) var originalTitle: String?
     private var spaceAdjustedTitle: String = ""
     private(set) var originalMessage: String?
     private var spaceAdjustedMessage: String = ""
 
-    private weak var imageView: UIImageView? = nil
+    private var imageView: UIImageView? = nil
     private var previousImgViewSize: CGSize = .zero
-
+    private var imageTopMargin: Alertift.ImageTopMargin = .none
     override var title: String? {
         didSet {
             if title != spaceAdjustedTitle {
@@ -39,17 +52,16 @@ class InnerAlertController: UIAlertController {
         }
     }
 
-    public func setImage(_ image: UIImage?) {
+    public func setImage(_ image: UIImage?, imageTopMargin: Alertift.ImageTopMargin = .none) {
         if let _ = image, title == nil {
             title = " "
         }
+        self.imageTopMargin = imageTopMargin
         guard let imageView = self.imageView else {
             let imageView = UIImageView(image: image)
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
-            self.view.addSubview(imageView)
             self.imageView = imageView
-            imageView.alpha = 0.5
             return
         }
         imageView.image = image
@@ -73,6 +85,10 @@ class InnerAlertController: UIAlertController {
             return
         }
 
+        if imageView.superview == nil {
+            mainView?.addSubview(imageView)
+        }
+
         if imageView.frame.width > view.frame.width {
             imageView.frame.size.width = view.frame.width
             imageView.frame.size.height = imageView.frame.size.width * image.size.height / image.size.width
@@ -81,34 +97,30 @@ class InnerAlertController: UIAlertController {
         // Adjust title if image size has changed
         if previousImgViewSize != imageView.bounds.size {
             previousImgViewSize = imageView.bounds.size
-            let info = adjustLabel(for: imageView)
+            adjustLabel(for: imageView)
             imageView.center.x = view.bounds.width / 2.0
-            imageView.center.y = Constants.padding(for: preferredStyle) + info.height / 2.0
+            imageView.frame.origin.y = imageTopMargin.margin
         }
     }
 
-    private func adjustLabel(for imageView: UIImageView) -> AdjustInfo {
+    private func adjustLabel(for imageView: UIImageView) {
 
         if let label = titleLabel {
-            let info = getLineCountAndHeight(for: imageView, label: label)
-            let lines = String(repeating: "\n", count: info.lineCount)
+            let lineCount = getLineCount(for: imageView, label: label)
+            let lines = String(repeating: "\n", count: lineCount)
             spaceAdjustedTitle = lines + (originalTitle ?? "")
             title = spaceAdjustedTitle
-            return info
         } else if let label = messageLabel {
-            let info = getLineCountAndHeight(for: imageView, label: label)
-            let lines = String(repeating: "\n", count: info.lineCount)
+            let lineCount = getLineCount(for: imageView, label: label)
+            let lines = String(repeating: "\n", count: lineCount)
             spaceAdjustedMessage = lines + (originalMessage ?? "")
             message = spaceAdjustedMessage
-            return info
-        } else {
-            return (0, 0.0)
         }
     }
 
-    private func getLineCountAndHeight(for imageView: UIImageView, label: UILabel?) -> AdjustInfo {
+    private func getLineCount(for imageView: UIImageView, label: UILabel?) -> Int {
         guard let label = label else {
-            return (0, 0.0)
+            return 0
         }
         let _label = UILabel(frame: .zero)
         _label.font = label.font
@@ -120,25 +132,12 @@ class InnerAlertController: UIAlertController {
             _label.sizeToFit()
             lineCount += 1
         }
-        return (lineCount, _label.frame.height)
+        return lineCount
     }
 
     private lazy var lineHeight: CGFloat = {
         return titleLabel?.font.lineHeight ?? messageLabel?.font.lineHeight ?? 1.0
     }()
-
-    struct Constants {
-        static var paddingAlert: CGFloat = 20
-        static var paddingSheet: CGFloat = 10
-        static func padding(for style: UIAlertControllerStyle) -> CGFloat {
-            return style == .alert ? Constants.paddingAlert : Constants.paddingSheet
-        }
-    }
-
-
-
-
-
 
     /// textFieldTextDidChangeHandler: ((UITextField, Int) -> Void)
     var textFieldTextDidChangeHandler: Alertift.Alert.TextFieldHandler?

@@ -94,8 +94,8 @@ extension Alertift {
             return { (action, index, _) in  (handler as? Handler)?(action, index) }
         }
 
-        public func image(_ image: UIImage?) -> Self {
-            _alertController.setImage(image)
+        public func image(_ image: UIImage?, imageTopMargin: Alertift.ImageTopMargin = .none) -> Self {
+            _alertController.setImage(image, imageTopMargin: imageTopMargin)
             return self
         }
 

@@ -9,6 +9,12 @@
 import Foundation
 
 extension Alertift {
+    public enum AlertImagePosition {
+        case top // Above title and message
+        case center // Between title and message
+        case bottom // Below title and message
+    }
+    
     /// Alert
     final public class Alert: AlertType, _AlertType {
         public typealias Handler = (UIAlertAction, Int, [UITextField]?) -> Void
@@ -51,13 +57,41 @@ extension Alertift {
         ///   - handler: The block to execute after this action performed.
         /// - Returns: Myself
         public func action(_ action: Alertift.Action, isPreferred: Bool, handler: Handler? = nil) -> Self {
-            addActionToAlertController(
-                buildAlertAction(
-                    action,
-                    handler: merge(_alertController.actionWithTextFieldsHandler, handler ?? { (_, _, _)in })
-                ),
-                isPreferred: isPreferred
+            return self.action(action, image: nil, isPreferred: isPreferred, handler: handler)
+        }
+
+        /// Add action to Alert
+        ///
+        /// - Parameters:
+        ///   - action: Alert action.
+        ///   - image: Image of action.
+        ///   - renderMode: Render mode for alert action image. Default is `.automatic`
+        ///   - handler: The block to execute after this action performed.
+        /// - Returns: Myself
+        public func action(_ action: Alertift.Action, image: UIImage?, renderingMode: UIImageRenderingMode = .automatic, handler: Handler? = nil) -> Self {
+            return self.action(action, image: image, renderingMode: renderingMode, isPreferred: false, handler: handler)
+        }
+
+        /// Add action to Alert
+        ///
+        /// - Parameters:
+        ///   - action: Alert action.
+        ///   - image: Image of action
+        ///   - renderMode: Render mode for alert action image. Default is `.automatic`
+        ///   - isPreferred: If you want to change this action to preferredAction, set true. Default is false.
+        ///   - handler: The block to execute after this action performed.
+        /// - Returns: Myself
+        public func action(_ action: Alertift.Action, image: UIImage?, renderingMode: UIImageRenderingMode = .automatic, isPreferred: Bool, handler: Handler? = nil) -> Self {
+            let alertAction = buildAlertAction(
+                action,
+                handler: merge(_alertController.actionWithTextFieldsHandler, handler ?? { (_, _, _)in })
             )
+
+            if let image = image {
+                alertAction.setValue(image.withRenderingMode(renderingMode), forKey: "image")
+            }
+
+            addActionToAlertController(alertAction, isPreferred: isPreferred)
             return self
         }
 
@@ -99,6 +133,11 @@ extension Alertift {
         
         func convertFinallyHandler(_ handler: Any) -> InnerAlertController.FinallyHandler {
             return { (handler as? Handler)?($0, $1, $2) }
+        }
+
+        public func image(_ image: UIImage?, imageTopMargin: Alertift.ImageTopMargin = .none) -> Self {
+            _alertController.setImage(image, imageTopMargin: imageTopMargin)
+            return self
         }
         
         deinit {

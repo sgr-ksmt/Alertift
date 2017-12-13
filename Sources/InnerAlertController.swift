@@ -9,9 +9,136 @@
 import Foundation
 import UIKit
 
+extension Alertift {
+    public enum ImageTopMargin {
+        case none
+        case belowRoundCorner
+
+        var margin: CGFloat {
+            switch self {
+            case .none: return 0.0
+            case .belowRoundCorner: return 16.0
+            }
+        }
+    }
+}
+
 /// InnerAlertController
 /// subclass of **UIAlertController**
 class InnerAlertController: UIAlertController {
+    typealias AdjustInfo = (lineCount: Int, height: CGFloat)
+
+    private(set) var originalTitle: String?
+    private var spaceAdjustedTitle: String = ""
+    private(set) var originalMessage: String?
+    private var spaceAdjustedMessage: String = ""
+
+    private var imageView: UIImageView? = nil
+    private var previousImgViewSize: CGSize = .zero
+    private var imageTopMargin: Alertift.ImageTopMargin = .none
+    override var title: String? {
+        didSet {
+            if title != spaceAdjustedTitle {
+                originalTitle = title
+            }
+        }
+    }
+
+    override var message: String? {
+        didSet {
+            if message != spaceAdjustedMessage {
+                originalMessage = message
+            }
+        }
+    }
+
+    public func setImage(_ image: UIImage?, imageTopMargin: Alertift.ImageTopMargin = .none) {
+        if let _ = image, title == nil {
+            title = " "
+        }
+        self.imageTopMargin = imageTopMargin
+        guard let imageView = self.imageView else {
+            let imageView = UIImageView(image: image)
+            imageView.contentMode = .scaleAspectFill
+            imageView.clipsToBounds = true
+            self.imageView = imageView
+            return
+        }
+        imageView.image = image
+        imageView.frame.size = image?.size ?? .zero
+    }
+
+    // MARK: -  Layout code
+
+    override func viewDidLayoutSubviews() {
+        guard let imageView = imageView, let _ = imageView.image else {
+            super.viewDidLayoutSubviews()
+            return
+        }
+
+        adjustImageViewPosition()
+        super.viewDidLayoutSubviews()
+    }
+
+    private func adjustImageViewPosition() {
+        guard let imageView = imageView, let image = imageView.image else {
+            return
+        }
+
+        if imageView.superview == nil {
+            mainView?.addSubview(imageView)
+        }
+
+        if imageView.frame.width > view.frame.width {
+            imageView.frame.size.width = view.frame.width
+            imageView.frame.size.height = imageView.frame.size.width * image.size.height / image.size.width
+        }
+
+        // Adjust title if image size has changed
+        if previousImgViewSize != imageView.bounds.size {
+            previousImgViewSize = imageView.bounds.size
+            adjustLabel(for: imageView)
+            imageView.center.x = view.bounds.width / 2.0
+            imageView.frame.origin.y = imageTopMargin.margin
+        }
+    }
+
+    private func adjustLabel(for imageView: UIImageView) {
+
+        if let label = titleLabel {
+            let lineCount = getLineCount(for: imageView, label: label)
+            let lines = String(repeating: "\n", count: lineCount)
+            spaceAdjustedTitle = lines + (originalTitle ?? "")
+            title = spaceAdjustedTitle
+        } else if let label = messageLabel {
+            let lineCount = getLineCount(for: imageView, label: label)
+            let lines = String(repeating: "\n", count: lineCount)
+            spaceAdjustedMessage = lines + (originalMessage ?? "")
+            message = spaceAdjustedMessage
+        }
+    }
+
+    private func getLineCount(for imageView: UIImageView, label: UILabel?) -> Int {
+        guard let label = label else {
+            return 0
+        }
+        let _label = UILabel(frame: .zero)
+        _label.font = label.font
+        _label.text = ""
+        _label.numberOfLines = 0
+        var lineCount = 1
+        while _label.frame.height < imageView.frame.height {
+            _label.text = _label.text.map { $0 + "\n" }
+            _label.sizeToFit()
+            lineCount += 1
+        }
+        return lineCount
+    }
+
+    private lazy var lineHeight: CGFloat = {
+        return titleLabel?.font.lineHeight ?? messageLabel?.font.lineHeight ?? 1.0
+    }()
+
     /// textFieldTextDidChangeHandler: ((UITextField, Int) -> Void)
     var textFieldTextDidChangeHandler: Alertift.Alert.TextFieldHandler?
     

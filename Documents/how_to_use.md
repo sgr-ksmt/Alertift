@@ -109,6 +109,41 @@ Alertift.actionSheet(message: "Which food do you like?")
 
 ![img5](img5.png)
 
+### Display Image
+
+```swift
+let alertImage: UIImage = ...
+Alertift.alert(title: "Alert with image", message: "You can add image simpley. call `alertift.image()`")
+    .image(alertImage)
+    .action(.default("OK"))
+    .show()
+```
+
+![img7](img7.png)
+
+### Add imaget to UIAlertAction
+
+```swift
+let infoIconImage: UIImage = ...
+Alertift.actionSheet(message: "Which food do you like?", anchorView: anchorView)
+    .action(.default("🍣"), image: infoIconImage)
+    .action(.default("🍎"), image: infoIconImage)
+    .action(.default("🍖"), image: infoIconImage)
+    .action(.default("🍅"), image: infoIconImage)
+    .action(.cancel("None of them"))
+    .finally { action, index in
+        if action.style == .cancel {
+            return
+        }
+        Alertift.alert(message: "\(index). \(action.title!)")
+            .action(.default("OK"))
+            .show()
+    }
+    .show()
+```
+
+![img8](img8.png)
+
 ### Change colors
 
 ```swift

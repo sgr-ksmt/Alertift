@@ -11,6 +11,7 @@ import Foundation
 extension Alertift {
     /// ActionSheet
     final public class ActionSheet: AlertType, _AlertType {
+
         public typealias Handler = (UIAlertAction, Int) -> Void
 
         var _alertController: InnerAlertController!
@@ -35,9 +36,20 @@ extension Alertift {
         
         /// Add action to alertController
         public func action(_ action: Alertift.Action, handler: Handler? = nil) -> Self {
-            _alertController.addAction(buildAlertAction(action, handler:
+            return self.action(action, image: nil, handler: handler)
+        }
+
+        /// Add action to alertController
+        public func action(_ action: Alertift.Action, image: UIImage?, renderingMode: UIImageRenderingMode = .automatic, handler: Handler? = nil) -> Self {
+            let alertAction = buildAlertAction(action, handler:
                 merge(_alertController.actionHandler, handler ?? { (_, _) in })
-            ))
+            )
+
+            if let image = image {
+                alertAction.setValue(image.withRenderingMode(renderingMode), forKey: "image")
+            }
+
+            _alertController.addAction(alertAction)
             return self
         }
                 
@@ -81,7 +93,12 @@ extension Alertift {
         func convertFinallyHandler(_ handler: Any) -> InnerAlertController.FinallyHandler {
             return { (action, index, _) in  (handler as? Handler)?(action, index) }
         }
-        
+
+        public func image(_ image: UIImage?, imageTopMargin: Alertift.ImageTopMargin = .none) -> Self {
+            _alertController.setImage(image, imageTopMargin: imageTopMargin)
+            return self
+        }
+
         deinit {
             Debug.log()
         }

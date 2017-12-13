@@ -50,6 +50,7 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         Alertift.alert(title: "Alertift", message: "Alertift is swifty, modern, and awesome UIAlertController wrapper.")
+            .image(#imageLiteral(resourceName: "alertImage"))
             .titleTextColor(.red)
             .messageTextColor(.blue)
             .action(.default("❤")) { (action, index, _) in
@@ -58,14 +59,16 @@ class ViewController: UIViewController {
             .action(.default("⭐")) { (action, index, _) in
                 print(action, index)
             }
-            .finally { (action, index, _) in
+            .finally { [weak self] (action, index, _) in
                 print(action, index)
+                self?.showAlertWithActionImage()
             }
             .show(on: self)
     }
     
     private func showSimpleAlert() {
         Alertift.alert(title: "Sample 1", message: "Simple alert!")
+            .image(#imageLiteral(resourceName: "alertImage"))
             .action(.default("OK"))
             .show()
     }
@@ -108,11 +111,19 @@ class ViewController: UIViewController {
             }
             .show()
     }
+
+    private func showAlertWithActionImage() {
+        Alertift.alert(message: "Can use image in alert action")
+            .action(.default("info"), image: #imageLiteral(resourceName: "icon"))
+            .show(on: self)
+    }
+
     private func showActionSheet(anchorView: UIView) {
         Alertift.actionSheet(message: "Which food do you like?", anchorView: anchorView)
-            .actions(["🍣", "🍎", "🍖", "🍅"]) { (action, index) in
-                print(action, index)
-            }
+            .action(.default("🍣"), image: #imageLiteral(resourceName: "icon"))
+            .action(.default("🍎"), image: #imageLiteral(resourceName: "icon"))
+            .action(.default("🍖"), image: #imageLiteral(resourceName: "icon"))
+            .action(.default("🍅"), image: #imageLiteral(resourceName: "icon"))
             .action(.cancel("None of them"))
             .finally { action, index in
                 if action.style == .cancel {
@@ -123,22 +134,6 @@ class ViewController: UIViewController {
                     .show()
             }
             .show()
-
-//        Alertift.actionSheet(message: "Which food do you like?", anchorView: anchorView)
-//            .action(.default("🍣"))
-//            .action(.default("🍎"))
-//            .action(.default("🍖"))
-//            .action(.default("🍅"))
-//            .action(.cancel("None of them"))
-//            .finally { action, index in
-//                if action.style == .cancel {
-//                    return
-//                }
-//                Alertift.alert(message: "\(index). \(action.title!)")
-//                    .action(.default("OK"))
-//                    .show()
-//            }
-//            .show()
     }
 }
 

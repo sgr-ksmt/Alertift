@@ -10,7 +10,7 @@ Alertift.alert(title: "Alertift", message: "Alertift is swifty, modern, and awes
 ```
 
 [![GitHub release](https://img.shields.io/github/release/sgr-ksmt/Alertift.svg)](https://github.com/sgr-ksmt/Alertift/releases)
-![Language](https://img.shields.io/badge/language-Swift%204.0-orange.svg)
+![Language](https://img.shields.io/badge/language-Swift%204.1-orange.svg)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods](https://img.shields.io/badge/Cocoa%20Pods-✓-4BC51D.svg?style=flat)](https://cocoapods.org/pods/Alertift)
 [![CocoaPodsDL](https://img.shields.io/cocoapods/dt/Alertift.svg)](https://cocoapods.org/pods/Alertift)
@@ -41,7 +41,7 @@ Alertift.alert(title: "Alertift", message: "Alertift is swifty, modern, and awes
 
 ```bash
 # Swift4 or later
-github "sgr-ksmt/Alertift" ~> 3.0
+github "sgr-ksmt/Alertift" ~> 3.2
 
 # Less than Swift4
 github "sgr-ksmt/Alertift" ~> 2.0

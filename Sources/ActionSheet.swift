@@ -40,7 +40,7 @@ extension Alertift {
         }
 
         /// Add action to alertController
-        public func action(_ action: Alertift.Action, image: UIImage?, renderingMode: UIImageRenderingMode = .automatic, handler: Handler? = nil) -> Self {
+        public func action(_ action: Alertift.Action, image: UIImage?, renderingMode: UIImage.RenderingMode = .automatic, handler: Handler? = nil) -> Self {
             let alertAction = buildAlertAction(action, handler:
                 merge(_alertController.actionHandler, handler ?? { (_, _) in })
             )

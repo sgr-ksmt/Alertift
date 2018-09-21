@@ -159,7 +159,7 @@ class InnerAlertController: UIAlertController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.textFieldDidChange(_:)),
-            name: .UITextFieldTextDidChange, object: textField
+            name: UITextField.textDidChangeNotification, object: textField
         )
     }
     

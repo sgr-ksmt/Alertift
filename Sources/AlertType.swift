@@ -17,7 +17,7 @@ internal protocol _AlertType: class {
 
 extension _AlertType where Self: AlertType {
     /// build AlertController
-    func buildAlertControlelr(title: String? = nil, message: String? = nil, style: UIAlertControllerStyle) {
+    func buildAlertControlelr(title: String? = nil, message: String? = nil, style: UIAlertController.Style) {
         _alertController = InnerAlertController(title: title, message: message, preferredStyle: style)
         _alertController.alertBackgroundColor = type(of: self).backgroundColor
         _alertController.view.tintColor = type(of: self).buttonTextColor

@@ -35,7 +35,7 @@ extension Alertift {
         }
         
         /// **UIAlertAction**'s style
-        private var style: UIAlertActionStyle {
+        private var style: UIAlertAction.Style {
             switch self {
             case .default( _): return .default
             case .destructive( _): return .destructive

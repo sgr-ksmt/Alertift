@@ -40,7 +40,10 @@ Alertift.alert(title: "Alertift", message: "Alertift is swifty, modern, and awes
 - Add the following to your *Cartfile*:
 
 ```bash
-# Swift4 or later
+# Swift4.2 or later
+github "sgr-ksmt/Alertift" ~> 4.0
+
+# Swift4 or 4.1
 github "sgr-ksmt/Alertift" ~> 3.2
 
 # Less than Swift4
@@ -58,7 +61,10 @@ github "sgr-ksmt/Alertift" ~> 2.0
 it, simply add the following line to your Podfile:
 
 ```ruby
-# Swift4 or later
+# Swift4.2 or later
+pod 'Alertift', '~> 4.0'
+
+# Swift4 or 4.1
 pod 'Alertift', '~> 3.0'
 
 # Less than Swift4

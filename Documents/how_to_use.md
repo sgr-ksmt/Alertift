@@ -14,7 +14,7 @@ Alertift.alert(title: "Sample 1", message: "Simple alert!")
 
 ```swift
 Alertift.alert(title: "Confirm", message: "Delete this post?")
-    .action(.destructive("Delete")) { _ in
+    .action(.destructive("Delete")) { _, _, _ in
         // delete post
     }
     .action(.cancel("Cancel"))

@@ -171,7 +171,7 @@ class InnerAlertController: UIAlertController {
             return
         }
         
-        guard let index = textFields?.index(of: textField) else {
+        guard let index = textFields?.firstIndex(of: textField) else {
             return
         }
         textFieldTextDidChangeHandler?(textField, index)
@@ -179,18 +179,18 @@ class InnerAlertController: UIAlertController {
 
     /// Returns actionHandler
     var actionHandler: (UIAlertAction) -> (UIAlertAction, Int) {
-        return { [weak self] action in (action, self?.actions.index(of: action) ?? -1) }
+        return { [weak self] action in (action, self?.actions.firstIndex(of: action) ?? -1) }
     }
 
     /// Returns actionWithTextFieldsHandler
     var actionWithTextFieldsHandler: (UIAlertAction) -> (UIAlertAction, Int, [UITextField]?) {
-        return { [weak self] action in (action, self?.actions.index(of: action) ?? -1, self?.textFields) }
+        return { [weak self] action in (action, self?.actions.firstIndex(of: action) ?? -1, self?.textFields) }
     }
     
     /// Returns finallyExecutor
     var finallyExecutor: (UIAlertAction) -> Void {
         return { [weak self] action in
-            self?.finallyHandler?(action, self?.actions.index(of: action) ?? -1, self?.textFields)
+            self?.finallyHandler?(action, self?.actions.firstIndex(of: action) ?? -1, self?.textFields)
         }
     }
     

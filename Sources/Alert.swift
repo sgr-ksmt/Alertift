@@ -45,10 +45,13 @@ extension Alertift {
             buildAlertControlelr(title: title, message: message, style: .alert)
         }
         
-        public func action(_ action: Alertift.Action, handler: Handler? = nil) -> Self {
+        public func action(_ action: Alertift.Action, handler: Handler?) -> Self {
             return self.action(action, isPreferred: false, handler: handler)
         }
 
+        public func action(_ action: Alertift.Action, handler: ShortHandler? = nil) -> Self {
+            return self.action(action) { _, _, _ in handler?() }
+        }
         /// Add action to Alert
         ///
         /// - Parameters:
@@ -56,8 +59,12 @@ extension Alertift {
         ///   - isPreferred: If you want to change this action to preferredAction, set true. Default is false.
         ///   - handler: The block to execute after this action performed.
         /// - Returns: Myself
-        public func action(_ action: Alertift.Action, isPreferred: Bool, handler: Handler? = nil) -> Self {
+        public func action(_ action: Alertift.Action, isPreferred: Bool, handler: Handler?) -> Self {
             return self.action(action, image: nil, isPreferred: isPreferred, handler: handler)
+        }
+
+        public func action(_ action: Alertift.Action, isPreferred: Bool, handler: ShortHandler? = nil) -> Self {
+            return self.action(action, image: nil, isPreferred: isPreferred) { _, _, _ in handler?() }
         }
 
         /// Add action to Alert
@@ -68,8 +75,12 @@ extension Alertift {
         ///   - renderMode: Render mode for alert action image. Default is `.automatic`
         ///   - handler: The block to execute after this action performed.
         /// - Returns: Myself
-        public func action(_ action: Alertift.Action, image: UIImage?, renderingMode: UIImage.RenderingMode = .automatic, handler: Handler? = nil) -> Self {
+        public func action(_ action: Alertift.Action, image: UIImage?, renderingMode: UIImage.RenderingMode = .automatic, handler: Handler?) -> Self {
             return self.action(action, image: image, renderingMode: renderingMode, isPreferred: false, handler: handler)
+        }
+
+        public func action(_ action: Alertift.Action, image: UIImage?, renderingMode: UIImage.RenderingMode = .automatic, handler: ShortHandler? = nil) -> Self {
+            return self.action(action, image: image, renderingMode: renderingMode, isPreferred: false) { _, _, _ in handler?() }
         }
 
         /// Add action to Alert
@@ -81,7 +92,7 @@ extension Alertift {
         ///   - isPreferred: If you want to change this action to preferredAction, set true. Default is false.
         ///   - handler: The block to execute after this action performed.
         /// - Returns: Myself
-        public func action(_ action: Alertift.Action, image: UIImage?, renderingMode: UIImage.RenderingMode = .automatic, isPreferred: Bool, handler: Handler? = nil) -> Self {
+        public func action(_ action: Alertift.Action, image: UIImage?, renderingMode: UIImage.RenderingMode = .automatic, isPreferred: Bool, handler: Handler?) -> Self {
             let alertAction = buildAlertAction(
                 action,
                 handler: merge(_alertController.actionWithTextFieldsHandler, handler ?? { (_, _, _)in })
@@ -93,6 +104,10 @@ extension Alertift {
 
             addActionToAlertController(alertAction, isPreferred: isPreferred)
             return self
+        }
+
+        public func action(_ action: Alertift.Action, image: UIImage?, renderingMode: UIImage.RenderingMode = .automatic, isPreferred: Bool, handler: ShortHandler? = nil) -> Self {
+            return self.action(action, image: image, renderingMode: renderingMode, isPreferred: isPreferred) { _, _, _ in handler?() }
         }
 
         /// Add text field to alertController

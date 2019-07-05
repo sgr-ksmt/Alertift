@@ -75,12 +75,12 @@ class ViewController: UIViewController {
     
     private func showYesOrNoAlert() {
         Alertift.alert(title: "Sample 2",message: "Do you like 🍣?")
-            .action(.default("Yes"), isPreferred: true) { (_, _, _) in
+            .action(.default("Yes"), isPreferred: true) {
                 Alertift.alert(message: "🍣🍣🍣")
                     .action(.default("Close"))
                     .show()
             }
-            .action(.cancel("No")) { (_, _, _) in
+            .action(.cancel("No")) {
                 Alertift.alert(message: "😂😂😂")
                     .action(.destructive("Close"))
                     .show()

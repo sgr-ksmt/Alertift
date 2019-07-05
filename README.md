@@ -30,8 +30,8 @@ Alertift.alert(title: "Alertift", message: "Alertift is swifty, modern, and awes
 
 ## Requirements
 - iOS 9.0+
-- Xcode 8.1+
-- Swift 3.0+
+- Xcode 10+
+- Swift 5.0+
 
 ## Installation
 
@@ -80,9 +80,6 @@ and run `pod install`
 
 ### Manually Install
 Download all `*.swift` files and put your project.
-
-## Change log
-Change log is [here](https://github.com/sgr-ksmt/Alertift/blob/master/CHANGELOG.md).
 
 ## Communication
 - If you found a bug, open an issue.

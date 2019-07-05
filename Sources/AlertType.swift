@@ -29,6 +29,7 @@ extension _AlertType where Self: AlertType {
 /// AlertType protocol
 public protocol AlertType: class {
     associatedtype Handler
+    typealias ShortHandler = () -> Void
 
     /// Add action to Alert
     ///
@@ -37,7 +38,15 @@ public protocol AlertType: class {
     ///   - handler: The block to execute after this action performed.
     /// - Returns: Myself
     func action(_ action: Alertift.Action, handler: Handler?) -> Self
-    
+
+    /// Add action to Alert
+    ///
+    /// - Parameters:
+    ///   - action: Alert action.
+    ///   - handler: The block to execute after this action performed.
+    /// - Returns: Myself
+    func action(_ action: Alertift.Action, handler: ShortHandler?) -> Self
+
     /// UIAlertController
     var alertController: UIAlertController { get }
     /// default background color of Alert(ActionSheet).

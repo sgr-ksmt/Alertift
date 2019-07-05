@@ -49,6 +49,9 @@ extension Alertift {
             return self.action(action, isPreferred: false, handler: handler)
         }
 
+        public func action(_ action: Alertift.Action, handler: ShortHandler? = nil) -> Self {
+            return self.action(action) { _, _, _ in handler?() }
+        }
         /// Add action to Alert
         ///
         /// - Parameters:
@@ -58,6 +61,10 @@ extension Alertift {
         /// - Returns: Myself
         public func action(_ action: Alertift.Action, isPreferred: Bool, handler: Handler? = nil) -> Self {
             return self.action(action, image: nil, isPreferred: isPreferred, handler: handler)
+        }
+
+        public func action(_ action: Alertift.Action, isPreferred: Bool, handler: ShortHandler? = nil) -> Self {
+            return self.action(action, image: nil, isPreferred: isPreferred) { _, _, _ in handler?() }
         }
 
         /// Add action to Alert
@@ -70,6 +77,10 @@ extension Alertift {
         /// - Returns: Myself
         public func action(_ action: Alertift.Action, image: UIImage?, renderingMode: UIImage.RenderingMode = .automatic, handler: Handler? = nil) -> Self {
             return self.action(action, image: image, renderingMode: renderingMode, isPreferred: false, handler: handler)
+        }
+
+        public func action(_ action: Alertift.Action, image: UIImage?, renderingMode: UIImage.RenderingMode = .automatic, handler: ShortHandler? = nil) -> Self {
+            return self.action(action, image: image, renderingMode: renderingMode, isPreferred: false) { _, _, _ in handler?() }
         }
 
         /// Add action to Alert
@@ -93,6 +104,10 @@ extension Alertift {
 
             addActionToAlertController(alertAction, isPreferred: isPreferred)
             return self
+        }
+
+        public func action(_ action: Alertift.Action, image: UIImage?, renderingMode: UIImage.RenderingMode = .automatic, isPreferred: Bool, handler: ShortHandler? = nil) -> Self {
+            return self.action(action, image: image, renderingMode: renderingMode, isPreferred: isPreferred) { _, _, _ in handler?() }
         }
 
         /// Add text field to alertController

@@ -11,7 +11,6 @@ import Foundation
 extension Alertift {
     /// ActionSheet
     final public class ActionSheet: AlertType, _AlertType {
-
         public typealias Handler = (UIAlertAction, Int) -> Void
 
         var _alertController: InnerAlertController!
@@ -39,6 +38,11 @@ extension Alertift {
             return self.action(action, image: nil, handler: handler)
         }
 
+        public func action(_ action: Alertift.Action, handler: ShortHandler?) -> Self {
+            return self.action(action) { _, _ in handler?() }
+        }
+
+
         /// Add action to alertController
         public func action(_ action: Alertift.Action, image: UIImage?, renderingMode: UIImage.RenderingMode = .automatic, handler: Handler? = nil) -> Self {
             let alertAction = buildAlertAction(action, handler:
@@ -51,6 +55,10 @@ extension Alertift {
 
             _alertController.addAction(alertAction)
             return self
+        }
+
+        public func action(_ action: Alertift.Action, image: UIImage?, renderingMode: UIImage.RenderingMode = .automatic, handler: ShortHandler? = nil) -> Self {
+            return self.action(action, image: image, renderingMode: renderingMode) { _, _ in handler?() }
         }
                 
         /// Add sourceView and sourceRect to **popoverPresentationController**.

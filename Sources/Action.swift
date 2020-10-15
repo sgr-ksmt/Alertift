@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension Alertift {
     /// Action type for **Alert**, **ActionSheet**

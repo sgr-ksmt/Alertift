@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// Internal AlertType protocol
 internal protocol _AlertType: class {

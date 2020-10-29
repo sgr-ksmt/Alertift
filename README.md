@@ -78,6 +78,9 @@ pod 'Alertift', '~> 2.0'
 
 and run `pod install`
 
+## Swift PM
+use version `v4.2` or higher.
+
 ### Manually Install
 Download all `*.swift` files and put your project.
 

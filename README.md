@@ -40,17 +40,7 @@ Alertift.alert(title: "Alertift", message: "Alertift is swifty, modern, and awes
 - Add the following to your *Cartfile*:
 
 ```bash
-# Swift5.0
-github "sgr-ksmt/Alertift" ~> 4.1
-
-# Swift4.2
-github "sgr-ksmt/Alertift" ~> 4.0
-
-# Swift4 or 4.1
-github "sgr-ksmt/Alertift" ~> 3.2
-
-# Less than Swift4
-github "sgr-ksmt/Alertift" ~> 2.0
+github "sgr-ksmt/Alertift" ~> 4.2
 ```
 
 - Run `carthage update`
@@ -64,22 +54,13 @@ github "sgr-ksmt/Alertift" ~> 2.0
 it, simply add the following line to your Podfile:
 
 ```ruby
-# Swift5.0 or later
-pod 'Alertift', '~> 4.1'
-# Swift4.2
-pod 'Alertift', '4.0'
-
-# Swift4 or 4.1
-pod 'Alertift', '~> 3.0'
-
-# Less than Swift4
-pod 'Alertift', '~> 2.0'
+pod 'Alertift', '~> 4.2'
 ```
 
 and run `pod install`
 
 ## Swift PM
-use version `v4.2` or higher.
+use version `4.2.0` or higher.
 
 ### Manually Install
 Download all `*.swift` files and put your project.
